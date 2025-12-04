@@ -31,8 +31,10 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+        working-directory: docusaurus-book/
       - name: Build
         run: npm run build
+        working-directory: docusaurus-book/
       # 👆 Build steps
       - name: Setup Pages
         uses: actions/configure-pages@v4
