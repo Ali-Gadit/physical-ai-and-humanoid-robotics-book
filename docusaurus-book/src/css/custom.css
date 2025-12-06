@@ -99,7 +99,9 @@
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
 }
-
+.navbar-sidebar{
+    height: fit-content !important;
+}
 /* Footer Styling */
 .footer {
   background-color: #2c5f9e;
@@ -247,9 +249,13 @@ html[data-theme='dark'] .hero {
 }
 
 html[data-theme='dark'] .hero__title {
-  color: #ffffff; /* white title */
+  color: #4a7abb; /* white title */
 }
 
 html[data-theme='dark'] .hero__subtitle {
   color: #cccccc; /* lighter subtitle for contrast */
+}
+/* Dark mode */
+html[data-theme='dark'] .features {
+  background-color: #000000; /* black background in dark mode */
 }
