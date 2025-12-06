@@ -100,7 +100,9 @@
   backdrop-filter: blur(10px);
 }
 .navbar-sidebar{
-    height: fit-content !important;
+  width: 100%; /* full width */
+  max-height: 100vh; /* avoid clipping, scrollable if too many links */
+  overflow-y: auto;
 }
 /* Footer Styling */
 .footer {
