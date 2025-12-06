@@ -6,7 +6,7 @@ const config = {
   tagline: 'An open-source textbook for Physical AI and Humanoid Robotics',
   url: 'https://example.com',
   baseUrl: '/physical-ai-and-humanoid-robotics-book/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 

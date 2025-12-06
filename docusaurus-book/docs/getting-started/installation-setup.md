@@ -10,7 +10,7 @@ sidebar_position: 1
 
 This guide provides step-by-step instructions for setting up the complete Physical AI & Humanoid Robotics development environment. The setup includes ROS 2, NVIDIA Isaac Sim, Gazebo, Unity integration, and all necessary dependencies for developing and simulating humanoid robots.
 
-**Important**: This setup requires significant computational resources. Please ensure your system meets the hardware requirements outlined in the [Hardware Requirements](./hardware-requirements.md) document before proceeding.
+**Important**: This setup requires significant computational resources. Please ensure your system meets the hardware requirements outlined in the [Hardware Requirements](../hardware-requirements.md) document before proceeding.
 
 ## Prerequisites
 
