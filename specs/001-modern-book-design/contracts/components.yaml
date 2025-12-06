@@ -1,0 +1,132 @@
+# Component Contracts: Modern Book Design
+
+## Overview
+This document defines the expected behavior and interfaces for the custom components that will be created as part of the modern book design implementation.
+
+## Homepage Component Contract
+
+### Interface
+```typescript
+interface HomepageProps {
+  title: string;
+  subtitle: string;
+  buttons: Array<{
+    text: string;
+    link: string;
+    variant: 'primary' | 'secondary';
+  }>;
+  features: Array<{
+    title: string;
+    description: string;
+    icon?: string;
+  }>;
+}
+```
+
+### Behavior
+- **Input**: Receives configuration for title, subtitle, buttons, and feature highlights
+- **Output**: Renders a hero section with title, subtitle, call-to-action buttons, and feature highlights
+- **Responsiveness**: Adapts layout for mobile, tablet, and desktop views
+- **Accessibility**: All interactive elements are keyboard accessible and have proper ARIA labels
+
+## Navigation Component Contract
+
+### Interface
+```typescript
+interface NavigationProps {
+  logo: {
+    src: string;
+    alt: string;
+  };
+  items: Array<{
+    label: string;
+    to: string;
+    active?: boolean;
+  }>;
+  themeToggle?: boolean;
+}
+```
+
+### Behavior
+- **Input**: Receives logo information and navigation items
+- **Output**: Renders a consistent navigation bar across all pages
+- **Active State**: Highlights the current page in the navigation
+- **Theme Toggle**: Provides ability to switch between light/dark modes
+
+## Book Content Component Contract
+
+### Interface
+```typescript
+interface BookContentProps {
+  title: string;
+  content: string;
+  author?: string;
+  publishDate?: string;
+  nextChapter?: string;
+  prevChapter?: string;
+  toc?: Array<{
+    title: string;
+    link: string;
+    level: number;
+  }>;
+}
+```
+
+### Behavior
+- **Input**: Receives book content and metadata
+- **Output**: Renders content with proper book-like typography and structure
+- **Navigation**: Provides links to next/previous chapters
+- **Table of Contents**: Displays hierarchical content navigation
+
+## Custom CSS Variables Contract
+
+### Color Variables
+- `--book-primary-color`: Main brand color (default: #2c5f9e)
+- `--book-secondary-color`: Secondary brand color (default: #f0f8ff)
+- `--book-text-color`: Main text color (default: #333)
+- `--book-background-color`: Page background (default: #fff)
+
+### Typography Variables
+- `--book-font-family`: Main font family (default: 'Georgia, serif')
+- `--book-font-size-base`: Base font size (default: 1.1rem)
+- `--book-line-height`: Line height for readability (default: 1.6)
+
+### Spacing Variables
+- `--book-spacing-unit`: Base spacing unit (default: 1rem)
+- `--book-container-width`: Maximum content width (default: 1200px)
+
+## Responsive Design Contract
+
+### Breakpoints
+- **Mobile**: Up to 768px width
+- **Tablet**: 769px to 1024px width
+- **Desktop**: 1025px and above
+
+### Behavior
+- **Mobile**: Single column layout, touch-friendly elements
+- **Tablet**: Adapts between mobile and desktop layouts
+- **Desktop**: Multi-column layouts where appropriate
+
+## Performance Contract
+
+### Load Time Requirements
+- **Homepage**: Must load in under 3 seconds
+- **Content Pages**: Must load in under 2 seconds
+- **Assets**: All images optimized for web delivery
+
+### Resource Usage
+- **CSS**: Minified and combined where possible
+- **JavaScript**: Only essential interactivity
+- **Images**: Properly sized and compressed
+
+## Accessibility Contract
+
+### Standards
+- **WCAG 2.1 AA**: All components must meet these standards
+- **Keyboard Navigation**: All interactive elements accessible via keyboard
+- **Screen Reader Support**: Proper semantic HTML and ARIA attributes
+
+### Color Contrast
+- **Text/Background**: Minimum 4.5:1 contrast ratio
+- **Large Text**: Minimum 3:1 contrast ratio
+- **Interface Components**: Minimum 3:1 contrast ratio

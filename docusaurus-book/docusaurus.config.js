@@ -55,10 +55,15 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
+      colorMode: {
+        defaultMode: 'light',
+        disableSwitch: false,
+        respectPrefersColorScheme: true,
+      },
       navbar: {
         title: 'Physical AI & Humanoid Robotics Textbook',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Physical AI & Humanoid Robotics Textbook Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -120,7 +125,17 @@ const config = {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
       },
+      // Custom color theme for book-like appearance
+      announcementBar: {
+        id: 'book_theme',
+        content:
+          'Welcome to the Physical AI & Humanoid Robotics Textbook - designed for an optimal reading experience.',
+        backgroundColor: '#2c5f9e',
+        textColor: '#ffffff',
+        isCloseable: true,
+      },
     }),
 };
+
 
 module.exports = config;
