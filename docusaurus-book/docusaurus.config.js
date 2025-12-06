@@ -64,7 +64,7 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'module1-ros2',
+            docId: 'module1-ros2/overview',
             position: 'left',
             label: 'Tutorial',
           },
@@ -83,7 +83,7 @@ const config = {
             items: [
               {
                 label: 'Modules',
-                to: '/module1-ros2',
+                to: '/module1-ros2/overview',
               },
             ],
           },
