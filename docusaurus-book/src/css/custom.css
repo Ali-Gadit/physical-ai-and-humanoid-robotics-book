@@ -259,6 +259,6 @@ html[data-theme='dark'] .hero__subtitle {
   color: #cccccc; /* lighter subtitle for contrast */
 }
 /* Dark mode */
-html[data-theme='dark'] .features {
+html[data-theme='dark'] .features_xdhU {
   background-color: #000000; /* black background in dark mode */
 }
