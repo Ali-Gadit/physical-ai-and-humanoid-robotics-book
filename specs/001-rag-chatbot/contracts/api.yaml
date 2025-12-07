@@ -1,0 +1,229 @@
+# RAG Chatbot API Contract
+
+## Overview
+OpenAPI specification for the Retrieval-Augmented Generation chatbot API that integrates with the Physical AI and Humanoid Robotics textbook.
+
+## Base Path
+`/api/v1`
+
+## Endpoints
+
+### 1. Chat Operations
+
+#### POST /chat
+Initiate or continue a chat conversation with the RAG system using OpenAI Agents SDK configured with Gemini models.
+
+**Request Body**:
+```json
+{
+  "message": "What is the principle of physical AI?",
+  "conversation_id": "uuid-string",
+  "selected_text": "Optional text selected by user",
+  "document_context": ["optional-document-ids"]
+}
+```
+
+**Response**:
+```json
+{
+  "conversation_id": "uuid-string",
+  "message_id": "uuid-string",
+  "response": "Detailed response based on book content",
+  "sources": [
+    {
+      "document_id": "chapter-1",
+      "section": "1.2",
+      "content_preview": "Relevant content excerpt",
+      "confidence_score": 0.95
+    }
+  ],
+  "timestamp": "2025-12-07T10:30:00Z"
+}
+```
+
+**Authentication**: Optional (for tracking user sessions)
+
+#### POST /chat/text-selection
+Process a text selection and generate relevant questions or explanations using OpenAI Agents SDK configured with Gemini models.
+
+**Request Body**:
+```json
+{
+  "selected_text": "Text the user has selected in the book",
+  "document_id": "chapter-1",
+  "user_query": "Optional specific question about the text"
+}
+```
+
+**Response**:
+```json
+{
+  "explanation": "Explanation of the selected text based on book content",
+  "related_concepts": ["concept1", "concept2"],
+  "followup_questions": [
+    "Suggested follow-up question 1",
+    "Suggested follow-up question 2"
+  ],
+  "relevant_sections": [
+    {
+      "document_id": "chapter-2",
+      "section": "2.3",
+      "title": "Related section title"
+    }
+  ]
+}
+```
+
+### 2. Content Operations
+
+#### GET /documents
+Retrieve list of available documents/chapters in the book.
+
+**Response**:
+```json
+{
+  "documents": [
+    {
+      "id": "chapter-1",
+      "title": "Introduction to Physical AI",
+      "url_path": "/docs/chapter-1",
+      "word_count": 2500,
+      "last_updated": "2025-12-01T00:00:00Z",
+      "processed": true
+    }
+  ]
+}
+```
+
+#### GET /search
+Search book content based on user query.
+
+**Query Parameters**:
+- `q`: Search query
+- `limit`: Number of results (default: 5, max: 10)
+- `document_context`: Optional document IDs to limit search
+
+**Response**:
+```json
+{
+  "query": "search query",
+  "results": [
+    {
+      "document_id": "chapter-3",
+      "section": "3.2",
+      "title": "Section title",
+      "content_preview": "Relevant content excerpt...",
+      "relevance_score": 0.92,
+      "url": "/docs/chapter-3#section-3.2"
+    }
+  ],
+  "total_results": 15
+}
+```
+
+### 3. Conversation Operations
+
+#### GET /conversations
+Retrieve user's conversation history.
+
+**Response**:
+```json
+{
+  "conversations": [
+    {
+      "id": "uuid-string",
+      "title": "What is Physical AI?",
+      "created_at": "2025-12-07T09:00:00Z",
+      "updated_at": "2025-12-07T10:30:00Z",
+      "message_count": 5
+    }
+  ]
+}
+```
+
+#### GET /conversations/{conversation_id}/messages
+Retrieve messages for a specific conversation.
+
+**Response**:
+```json
+{
+  "messages": [
+    {
+      "id": "uuid-string",
+      "role": "user",
+      "content": "What is the principle of physical AI?",
+      "timestamp": "2025-12-07T10:25:00Z",
+      "sources": []
+    },
+    {
+      "id": "uuid-string",
+      "role": "assistant",
+      "content": "Physical AI combines artificial intelligence with physical systems...",
+      "timestamp": "2025-12-07T10:25:05Z",
+      "sources": [
+        {
+          "document_id": "chapter-1",
+          "section": "1.1",
+          "content_preview": "Definition of Physical AI..."
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### DELETE /conversations/{conversation_id}
+Delete a conversation and all its messages.
+
+**Response**: 204 No Content
+
+### 4. Feedback Operations
+
+#### POST /feedback
+Submit feedback on a response.
+
+**Request Body**:
+```json
+{
+  "message_id": "uuid-string",
+  "rating": 5,
+  "comment": "Optional user comment about the response quality"
+}
+```
+
+**Response**: 200 OK
+
+## Error Responses
+
+All endpoints follow this error format:
+```json
+{
+  "error": {
+    "code": "ERROR_CODE",
+    "message": "Human-readable error message",
+    "details": "Optional technical details"
+  }
+}
+```
+
+## Common Error Codes
+
+- `INVALID_INPUT`: Request data doesn't match expected format
+- `DOCUMENT_NOT_FOUND`: Requested document doesn't exist
+- `CONVERSATION_NOT_FOUND`: Requested conversation doesn't exist
+- `RATE_LIMIT_EXCEEDED`: Too many requests from this client
+- `INTERNAL_ERROR`: Server-side error occurred
+- `CONTENT_TOO_LONG`: Request content exceeds maximum allowed length
+
+## Headers
+
+- `Content-Type`: application/json
+- `Accept`: application/json
+- `Authorization`: Bearer {token} (for authenticated endpoints)
+- `X-Request-ID`: Client-generated request identifier for tracing
+
+## Rate Limiting
+
+- Unauthenticated requests: 100/hour
+- Authenticated requests: 1000/hour
+- Content search: 50/minute
