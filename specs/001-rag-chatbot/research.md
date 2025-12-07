@@ -1,121 +1,114 @@
-# Research: Integrated RAG Chatbot Development
+# Research Notes: OpenAI Agents SDK & ChatKit with Gemini
 
-## Overview
-Research and analysis for implementing a Retrieval-Augmented Generation (RAG) chatbot for the Physical AI and Humanoid Robotics textbook using OpenAI Agents/ChatKit SDKs, FastAPI, Neon Serverless Postgres, and Qdrant Cloud Free Tier.
+**Date**: 2025-12-07
+**Context**: Investigating how to use OpenAI Agents SDK and ChatKit with Gemini models for the RAG Chatbot feature.
 
-## Technology Research
+## OpenAI Agents SDK (Python)
 
-### 1. OpenAI Agents SDK
-**Decision**: Use OpenAI Assistant API with custom model configuration to use Gemini models
-**Rationale**: Provides managed conversation memory, tool calling, and state management while allowing model flexibility
-**Alternatives considered**:
-- OpenAI Completions API (requires custom state management)
-- LangChain Agents (more complex setup)
+**Library ID**: `/openai/openai-agents-python`
 
-### 2. OpenAI ChatKit SDK
-**Decision**: Implement custom chat interface with OpenAI API rather than using ChatKit
-**Rationale**: ChatKit is deprecated; better to use current OpenAI Assistant API with custom UI and model configuration
-**Alternatives considered**:
-- OpenAI's own chat components
-- Third-party chat UI libraries
+### Core Concept
+The SDK uses `Agent` objects that are run by a `Runner`. Agents can have `tools` and `handoffs`.
 
-### 3. FastAPI Backend Framework
-**Decision**: Use FastAPI for backend API
-**Rationale**: High performance, excellent async support, automatic API documentation
-**Alternatives considered**: Flask (slower), Django (overkill for API)
+### Gemini Integration (via LiteLLM)
+The SDK has built-in support for `LiteLLM`, which allows using non-OpenAI models like Gemini.
 
-### 4. Qdrant Vector Database
-**Decision**: Use Qdrant Cloud Free Tier for vector storage
-**Rationale**: Efficient similarity search, good Python integration, free tier available
-**Alternatives considered**:
-- Pinecone (requires payment info for free tier)
-- Weaviate (self-hosting complexity)
+**Installation**:
+```bash
+pip install "openai-agents[litellm]"
+# OR
+pip install litellm
+```
 
-### 5. Gemini Embedding Models
-**Decision**: Use Google's Gemini embedding models via Google AI SDK
-**Rationale**: Free models available as requested, good performance for technical content
-**Alternatives considered**:
-- OpenAI embeddings (cost concerns)
-- Sentence Transformers (self-hosting requirements)
+**Usage Code Pattern**:
+```python
+from agents import Agent, Runner
+from agents.extensions.models.litellm_model import LitellmModel
 
-### 6. Neon Serverless Postgres
-**Decision**: Use Neon for structured data storage
-**Rationale**: Serverless, PostgreSQL compatible, good for metadata and conversation history
-**Alternatives considered**:
-- Supabase (similar but different ecosystem)
-- Traditional PostgreSQL (requires server management)
+# Configure Agent to use Gemini
+agent = Agent(
+    name="Gemini Assistant",
+    instructions="You are a helpful assistant for the Robotics textbook.",
+    model=LitellmModel(
+        model="gemini/gemini-1.5-flash",  # Use appropriate Gemini model version
+        api_key="<GEMINI_API_KEY>"        # From env vars
+    )
+)
 
-## Architecture Decisions
+# Running the agent
+result = await Runner.run(agent, "What is Physical AI?")
+```
 
-### 1. Frontend Integration
-**Decision**: Integrate chatbot into existing Docusaurus book via React components
-**Rationale**: Maintains book's existing structure while adding functionality
-**Implementation**: Custom React components that can be embedded in Docusaurus pages
+### RAG Integration
+The SDK supports `FileSearchTool`, but for our specific Qdrant + Gemini Embedding setup, we should likely create a **custom tool** or use the `Agent`'s context injection capabilities if we are doing the retrieval manually before calling the agent.
 
-### 2. Text Selection Feature
-**Decision**: Implement text selection listener with context menu
-**Rationale**: Provides seamless user experience for asking questions about selected text
-**Technical approach**: JavaScript event listeners for text selection with custom context menu
+Given the requirements, a custom function tool is best:
+```python
+@function_tool
+async def search_book_content(query: str):
+    """Searches the textbook for relevant info."""
+    # Logic to embed query with Gemini and search Qdrant
+    return retrieved_chunks
+```
 
-### 3. RAG Implementation
-**Decision**: Use hybrid approach with vector similarity and keyword search
-**Rationale**: Provides better retrieval accuracy for technical content
-**Components**: Embedding generation, vector storage, retrieval algorithm
+## OpenAI ChatKit (Frontend - React)
 
-## Implementation Strategy
+**Library ID**: `/openai/chatkit-js` (and `@openai/chatkit-react`)
 
-### Phase 1: Backend Development
-1. Set up FastAPI application
-2. Implement Qdrant vector store integration
-3. Create Gemini embedding pipeline
-4. Build RAG retrieval service
-5. Add OpenAI Assistant integration
+### Core Concept
+Provides a pre-built UI for chat interfaces (`<ChatKit />`) and hooks (`useChatKit`) to connect to a backend.
 
-### Phase 2: Frontend Development
-1. Create chatbot UI component
-2. Implement persistent chat button
-3. Add text selection functionality
-4. Connect to backend API
-5. Integrate with Docusaurus
+### Setup
+1.  **Install**: `npm install @openai/chatkit-react`
+2.  **Configuration**:
+    ```javascript
+    import { ChatKit, useChatKit } from '@openai/chatkit-react';
 
-### Phase 3: Content Processing
-1. Process existing book content into vector store
-2. Create content indexing pipeline
-3. Implement incremental content updates
+    function Chatbot() {
+      const { control } = useChatKit({
+        api: {
+          // Endpoint that returns a client token or handles the session
+          getClientSecret: async () => {
+             const res = await fetch('/api/chat/session');
+             return (await res.json()).client_secret;
+          }
+        },
+        // Customization
+        startScreen: { greeting: "Ask about the book..." }
+      });
 
-## Dependencies & Setup
+      return <ChatKit control={control} />;
+    }
+    ```
 
-### Backend Dependencies
-- fastapi
-- uvicorn
-- qdrant-client
-- google-generativeai
-- openai
-- psycopg2-binary
-- sqlalchemy
+## OpenAI ChatKit (Backend - Python)
 
-### Frontend Dependencies
-- React components for chat interface
-- Integration with existing Docusaurus setup
+**Library ID**: `/openai/chatkit-python`
 
-## Risks & Mitigations
+### Role
+The Python SDK for ChatKit (`chatkit-python`) seems to provide a server implementation (`ChatKitServer`) that bridges the frontend request to the Agents SDK `Runner`.
 
-### 1. Performance
-- **Risk**: Slow response times for complex queries
-- **Mitigation**: Implement caching, optimize vector search, use async processing
+**Key Flow**:
+1.  Frontend `useChatKit` connects to Backend.
+2.  Backend `ChatKitServer` receives message.
+3.  Backend uses `Agents SDK` (with Gemini) to generate response.
+4.  Backend streams response back to Frontend.
 
-### 2. Content Freshness
-- **Risk**: Book content updates not reflected in vector store
-- **Mitigation**: Create automated content synchronization pipeline
+*Note*: If `chatkit-python` is complex to set up with custom LiteLLM agents, we might fallback to a manual FastAPI endpoint that streams responses compatible with what ChatKit expects, or just use `Runner.run_streamed` and format the output.
 
-### 3. Cost Management
-- **Risk**: Usage exceeding free tier limits
-- **Mitigation**: Implement rate limiting, monitor usage, optimize queries
+## Recommended Architecture for Implementation
 
-## Next Steps
+1.  **Backend**:
+    *   **FastAPI** app.
+    *   **Agent**: Configured with `LitellmModel` (Gemini).
+    *   **Tools**: Custom `search_book` tool (wrapping Qdrant retrieval).
+    *   **Endpoint**: `/chat` (websocket or streaming HTTP) that uses `Runner` to execute the agent and streams back results.
 
-1. Create detailed data models
-2. Define API contracts
-3. Set up development environment
-4. Begin backend implementation
-5. Create frontend components
+2.  **Frontend**:
+    *   **React** app.
+    *   **ChatKit**: Configured to talk to the FastAPI endpoint.
+
+## Action Items
+1.  Add `litellm` to `backend/requirements.txt`.
+2.  Implement `backend/src/services/chat_service.py` using `LitellmModel`.
+3.  Implement Custom Tool for RAG in `backend/src/rag/tools.py`.

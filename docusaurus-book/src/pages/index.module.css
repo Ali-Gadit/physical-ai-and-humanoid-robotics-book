@@ -4,17 +4,23 @@
  */
 
 .heroBanner {
-  padding: 2rem 0;
+  padding: 6rem 0; /* Increased padding to make it taller */
+  min-height: 50vh; /* Ensure it takes at least 50% of viewport height */
+  display: flex; /* Enable flexbox for vertical centering */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   text-align: center;
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
 }
 
+/* Remove the media query that overrides padding for smaller screens if it conflicts with the new min-height/padding */
 @media screen and (max-width: 996px) {
-  .heroBanner {
+  /* .heroBanner {
     padding: 2rem 0;
-  }
+  } */
 }
 
 .heroImageContainer {

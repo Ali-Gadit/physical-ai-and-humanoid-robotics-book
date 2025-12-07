@@ -1,0 +1,24 @@
+# render.yaml
+# This file defines services to be deployed on Render.com
+
+services:
+  # Backend FastAPI service
+  - type: web
+    name: rag-chatbot-backend
+    env: python
+    rootDir: backend/ # Specify the backend directory as the root for this service
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
+    # Environment variables (values must be set in Render dashboard for security)
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false # Do not sync from Git, set securely in Render
+      - key: QDRANT_API_KEY
+        sync: false
+      - key: QDRANT_HOST
+        sync: false
+      - key: NEON_DATABASE_URL
+        sync: false
+    # Expose port 8000 (FastAPI default)
+    ports:
+      - 8000
