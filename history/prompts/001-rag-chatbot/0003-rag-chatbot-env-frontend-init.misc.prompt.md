@@ -25,13 +25,12 @@ tests:
 
 ## Prompt
 
-GEMINI_API_KEY=AIzaSyCPvNjUek8WJVO8-mAYYcY3eMHUEE3wHPw
-QDRANT_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.jtgbSTEDP3gwOvu1z4pVNl23ImB2PP-d-yc6wUOwfc4
-QDRANT_HOST=https://8b00b872-4d14-4229-8f6b-23f5accf45ce.europe-west3-0.gcp.cloud.qdrant.io
+GEMINI_API_KEY=
+QDRANT_API_KEY=
+QDRANT_HOST=
 
 # Database
-NEON_DATABASE_URL=psql 'postgresql://neondb_owner:npg_4SBvecNxj7lu@ep-wispy-frost-a1a3hg4p-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
-
+NEON_DATABASE_URL=psql
 ## Response snapshot
 
 Completed T002 (frontend directory and package.json) and T003 (backend/.env file with provided keys).

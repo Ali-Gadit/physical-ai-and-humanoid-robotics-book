@@ -80,8 +80,8 @@ function Chatbot({ selectedText, onClearSelectedText }) {
 
   const { control, threadId } = useChatKit({
     api: {
-      url: 'http://localhost:8000/chatkit',
-      domainKey: 'local-dev', 
+      url: 'https://rag-chatbot-backend-q1x0.onrender.com/chatkit', // Updated to production URL
+      // domainKey is typically not needed for production deployments
     },
     initialThreadId: initialThread || undefined,
     theme: {
