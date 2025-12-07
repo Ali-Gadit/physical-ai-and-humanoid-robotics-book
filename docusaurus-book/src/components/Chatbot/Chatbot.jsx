@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
+import Head from '@docusaurus/Head';
 import { ChatKit, useChatKit } from '@openai/chatkit-react';
 
 const LOCAL_STORAGE_THREAD_ID_KEY = 'chatkit_thread_id';
@@ -80,8 +81,8 @@ function Chatbot({ selectedText, onClearSelectedText }) {
 
   const { control, threadId } = useChatKit({
     api: {
-      url: 'https://rag-chatbot-backend-q1x0.onrender.com/chatkit', // Updated to production URL
-      // domainKey is typically not needed for production deployments
+      url: 'https://rag-chatbot-backend-q1x0.onrender.com/chatkit',
+      domainKey: 'ali-gadit.github.io', // Updated to your GitHub Pages domain
     },
     initialThreadId: initialThread || undefined,
     theme: {
@@ -140,6 +141,11 @@ function Chatbot({ selectedText, onClearSelectedText }) {
 
   return (
     <div style={containerStyle}>
+      {/* Inject CDN script via Head for robustness */}
+      <Head>
+        <script src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js" type="module" async></script>
+      </Head>
+      
       <div style={headerStyle}>
         <span style={{ fontWeight: '600', fontSize: '16px' }}>Textbook Tutor</span>
         <button 
