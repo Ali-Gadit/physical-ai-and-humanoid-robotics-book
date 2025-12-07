@@ -82,7 +82,7 @@ function Chatbot({ selectedText, onClearSelectedText }) {
   const { control, threadId } = useChatKit({
     api: {
       url: 'https://rag-chatbot-backend-q1x0.onrender.com/chatkit',
-      domainKey: 'domain_pk_6935af3262588193ab3e674c3f19216d00f7450139ca2d06', // Updated to your GitHub Pages domain
+      domainKey: 'domain_pk_6935b0215f8c81908eb11899c2fc88f70b4b0cc7d1f97a9d', // Updated to your GitHub Pages domain
     },
     initialThreadId: initialThread || undefined,
     theme: {
