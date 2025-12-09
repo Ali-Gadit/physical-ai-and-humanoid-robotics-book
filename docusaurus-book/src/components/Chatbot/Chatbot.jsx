@@ -1,10 +1,15 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import Head from '@docusaurus/Head';
 import { ChatKit, useChatKit } from '@openai/chatkit-react';
-import useIsBrowser from '@docusaurus/useIsBrowser';
-import { useColorMode } from '@docusaurus/theme-common';
 
 const LOCAL_STORAGE_THREAD_ID_KEY = 'chatkit_thread_id';
+
+// Default theme colors for fallback
+const DEFAULT_PRIMARY_COLOR = '#2c5f9e';
+const DEFAULT_BACKGROUND_COLOR = '#ffffff';
+const DEFAULT_FONT_COLOR = '#333333';
+const DEFAULT_DANGER_COLOR = '#ff4444';
+const DEFAULT_DANGER_LIGHT = '#ffdddd';
 
 // Responsive container styles
 const getContainerStyle = (isMobile, isTablet) => ({
@@ -14,32 +19,32 @@ const getContainerStyle = (isMobile, isTablet) => ({
   maxHeight: isMobile ? 'calc(100vh - 100px)' : isTablet ? '80vh' : '600px',
   minHeight: isMobile ? '400px' : '450px',
   minWidth: isMobile ? '280px' : '320px',
-  border: `1px solid var(--ifm-color-primary)`,
+  border: `1px solid ${DEFAULT_PRIMARY_COLOR}`,
   borderRadius: '12px',
   overflow: 'hidden',
-  backgroundColor: 'var(--ifm-background-surface-color)',
+  backgroundColor: DEFAULT_BACKGROUND_COLOR,
   display: 'flex',
   flexDirection: 'column',
   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-  fontFamily: 'var(--ifm-font-family-base)',
-  color: 'var(--ifm-font-color-base)',
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+  color: DEFAULT_FONT_COLOR,
   margin: isMobile ? '16px auto' : '0 auto',
   position: 'relative',
   transition: 'all 0.3s ease',
 });
 
-const headerStyle = {
+const getHeaderStyle = (isDarkMode = false) => ({
   padding: '16px 20px',
-  borderBottom: `1px solid var(--ifm-color-emphasis-300)`,
+  borderBottom: `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: 'var(--ifm-color-primary)',
+  backgroundColor: DEFAULT_PRIMARY_COLOR,
   color: '#ffffff',
   fontSize: 'clamp(16px, 2vw, 18px)',
   flexShrink: 0,
   minHeight: '56px',
-};
+});
 
 const clearButtonStyle = {
   background: 'rgba(255, 255, 255, 0.2)',
@@ -54,54 +59,55 @@ const clearButtonStyle = {
   marginLeft: '12px',
 };
 
-const chatContainerStyle = {
+const chatContainerStyle = (isDarkMode = false) => ({
   flexGrow: 1,
   position: 'relative',
   height: '100%',
   width: '100%',
-  backgroundColor: 'var(--ifm-background-color)',
+  backgroundColor: isDarkMode ? '#1a1a1a' : '#f8f8f8',
   overflow: 'hidden',
-};
+});
 
-const errorBannerStyle = {
+const errorBannerStyle = (isDarkMode = false) => ({
   padding: '10px 16px',
-  backgroundColor: 'var(--ifm-color-danger-lightest)',
-  color: 'var(--ifm-color-danger-dark)',
-  borderBottom: '1px solid var(--ifm-color-danger-light)',
+  backgroundColor: isDarkMode ? 'rgba(255, 68, 68, 0.2)' : DEFAULT_DANGER_LIGHT,
+  color: isDarkMode ? '#ff8888' : DEFAULT_DANGER_COLOR,
+  borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 68, 68, 0.3)' : '#ffaaaa'}`,
   textAlign: 'center',
   fontSize: 'clamp(0.8em, 2vw, 0.9em)',
   flexShrink: 0,
-};
+});
 
-const loadingStyle = {
+const loadingStyle = (isDarkMode = false) => ({
   flexGrow: 1,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  color: 'var(--ifm-font-color-base)',
+  color: isDarkMode ? '#ffffff' : DEFAULT_FONT_COLOR,
   fontSize: 'clamp(14px, 2vw, 16px)',
   padding: '20px',
   textAlign: 'center',
-};
+});
 
 function Chatbot({ selectedText, onClearSelectedText }) {
-  const isBrowser = useIsBrowser();
-  const { colorMode } = useColorMode();
   const [initialThread, setInitialThread] = useState(null);
   const [isReady, setIsReady] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [windowSize, setWindowSize] = useState({
-    width: isBrowser ? window.innerWidth : 1200,
-    height: isBrowser ? window.innerHeight : 800,
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    height: typeof window !== 'undefined' ? window.innerHeight : 800,
   });
+  
+  // Detect dark mode from localStorage or system preference
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Responsive breakpoints
   const isMobile = windowSize.width < 768;
   const isTablet = windowSize.width >= 768 && windowSize.width < 1024;
 
-  // Handle window resize
+  // Handle window resize and dark mode detection
   useEffect(() => {
-    if (!isBrowser) return;
+    if (typeof window === 'undefined') return;
 
     const handleResize = () => {
       setWindowSize({
@@ -110,19 +116,46 @@ function Chatbot({ selectedText, onClearSelectedText }) {
       });
     };
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Set initial size
+    // Check for dark mode
+    const checkDarkMode = () => {
+      // First check localStorage
+      const storedMode = localStorage.getItem('theme');
+      if (storedMode === 'dark' || storedMode === 'light') {
+        setIsDarkMode(storedMode === 'dark');
+      } else {
+        // Check system preference
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setIsDarkMode(systemPrefersDark);
+      }
+    };
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, [isBrowser]);
+    // Listen for theme changes
+    const themeChangeHandler = (e) => {
+      setIsDarkMode(e.matches);
+    };
+    
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeMediaQuery.addListener(themeChangeHandler);
+
+    window.addEventListener('resize', handleResize);
+    
+    // Initial calls
+    handleResize();
+    checkDarkMode();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      darkModeMediaQuery.removeListener(themeChangeHandler);
+    };
+  }, []);
 
   useEffect(() => {
-    if (!isBrowser) return;
+    if (typeof window === 'undefined') return;
 
     const savedThread = localStorage.getItem(LOCAL_STORAGE_THREAD_ID_KEY);
     setInitialThread(savedThread);
     setIsReady(true);
-  }, [isBrowser]);
+  }, []);
 
   const { control, threadId } = useChatKit({
     api: {
@@ -131,15 +164,15 @@ function Chatbot({ selectedText, onClearSelectedText }) {
     },
     initialThreadId: initialThread || undefined,
     theme: {
-      colorScheme: colorMode,
+      colorScheme: isDarkMode ? 'dark' : 'light',
       color: {
         accent: { 
-          primary: 'var(--ifm-color-primary)', 
+          primary: DEFAULT_PRIMARY_COLOR, 
           level: 1 
         },
       },
       typography: { 
-        fontFamily: 'var(--ifm-font-family-base)',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
         fontSize: {
           base: isMobile ? '14px' : '16px',
         }
@@ -173,23 +206,23 @@ function Chatbot({ selectedText, onClearSelectedText }) {
 
   // Effect to save the threadId to localStorage whenever it changes
   useEffect(() => {
-    if (threadId && isBrowser) {
+    if (threadId && typeof window !== 'undefined') {
       localStorage.setItem(LOCAL_STORAGE_THREAD_ID_KEY, threadId);
     }
-  }, [threadId, isBrowser]);
+  }, [threadId]);
 
   const clearConversation = useCallback(() => {
-    if (isBrowser) {
+    if (typeof window !== 'undefined') {
       localStorage.removeItem(LOCAL_STORAGE_THREAD_ID_KEY);
     }
     control.setThreadId(undefined);
     setErrorMessage(null);
-  }, [control, isBrowser]);
+  }, [control]);
 
   if (!isReady) {
     return (
       <div style={getContainerStyle(isMobile, isTablet)}>
-        <div style={headerStyle}>
+        <div style={getHeaderStyle(isDarkMode)}>
           <span style={{ fontWeight: '600', fontSize: 'clamp(16px, 2vw, 18px)' }}>
             Textbook Tutor
           </span>
@@ -200,7 +233,7 @@ function Chatbot({ selectedText, onClearSelectedText }) {
             ...
           </button>
         </div>
-        <div style={loadingStyle}>
+        <div style={loadingStyle(isDarkMode)}>
           Loading Chatbot UI...
         </div>
       </div>
@@ -217,10 +250,10 @@ function Chatbot({ selectedText, onClearSelectedText }) {
           async 
         />
         {/* Add viewport meta for mobile responsiveness */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
       
-      <div style={headerStyle}>
+      <div style={getHeaderStyle(isDarkMode)}>
         <span style={{ 
           fontWeight: '600', 
           fontSize: 'clamp(16px, 2vw, 18px)',
@@ -244,18 +277,14 @@ function Chatbot({ selectedText, onClearSelectedText }) {
       </div>
       
       {errorMessage && (
-        <div style={errorBannerStyle}>
+        <div style={errorBannerStyle(isDarkMode)}>
           {errorMessage}
         </div>
       )}
       
-      <div style={chatContainerStyle}>
+      <div style={chatContainerStyle(isDarkMode)}>
         <ChatKit 
-          control={control} 
-          style={{
-            '--chatkit-font-size-base': isMobile ? '14px' : '16px',
-            '--chatkit-spacing-unit': isMobile ? '3px' : '4px',
-          }}
+          control={control}
         />
       </div>
     </div>
