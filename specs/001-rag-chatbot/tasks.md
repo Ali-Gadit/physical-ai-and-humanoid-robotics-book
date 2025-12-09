@@ -48,10 +48,10 @@
 *Goal: Allow users to select text and ask questions specifically about that selection.*
 *Priority: P3*
 
-- [ ] T022 [US3] Create TextSelection handler component in `docusaurus-book/src/components/Chatbot/TextSelectionHandler.jsx` to display a floating "Ask Assistant" tooltip on selection.
-- [ ] T023 [US3] Update Chatbot UI and `ChatButton.jsx` to trigger chatbot with selected text from floating tooltip.
-- [ ] T024 [US3] Update Chat API in `backend/src/api/chat.py` to accept `selected_text` in request body
-- [ ] T025 [US3] Update Agent logic in `backend/src/services/chat_service.py` to prioritize or restrict context to `selected_text` when provided
+- [x] T022 [US3] Create TextSelection handler component in `docusaurus-book/src/components/Chatbot/TextSelectionHandler.jsx` to display a floating "Ask Assistant" tooltip on selection.
+- [x] T023 [US3] Update Chatbot UI and `ChatButton.jsx` to open the chatbot and pre-fill the input field with the selected text when the "Ask Assistant" tooltip is clicked.
+- [ ] T024 [US3] [CANCELLED] Update Chat API in `backend/src/api/chat.py` to accept `selected_text` in request body (User requested standard text input flow)
+- [ ] T025 [US3] [CANCELLED] Update Agent logic in `backend/src/services/chat_service.py` to prioritize or restrict context to `selected_text` when provided (User requested standard text input flow)
 
 ## Phase 6: Polish & Cross-Cutting
 *Goal: Refine UI/UX, ensure robustness, and prepare for deployment.*

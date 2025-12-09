@@ -136,7 +136,7 @@ function Chatbot({ selectedText, onClearSelectedText }) {
     setIsReady(true);
   }, []);
 
-  const { control, threadId } = useChatKit({
+  const { control, threadId, setComposerValue, focusComposer } = useChatKit({
     api: {
       url: 'https://rag-chatbot-backend-q1x0.onrender.com/chatkit',
       domainKey: 'domain_pk_6935b0215f8c81908eb11899c2fc88f70b4b0cc7d1f97a9d',
@@ -169,6 +169,36 @@ function Chatbot({ selectedText, onClearSelectedText }) {
       localStorage.setItem(LOCAL_STORAGE_THREAD_ID_KEY, threadId);
     }
   }, [threadId]);
+
+  // Effect to handle pre-filling the composer with selected text
+  useEffect(() => {
+    if (selectedText) {
+      if (typeof setComposerValue === 'function') {
+        console.log('Chatbot: Attempting to set composer value with:', selectedText);
+        
+        // Small delay to ensure the composer UI is mounted and ready to receive input
+        const timer = setTimeout(() => {
+          try {
+            if (focusComposer) focusComposer();
+            // Pass an object with 'text' property, as expected by ChatKit internals
+            setComposerValue({ text: String(selectedText) });
+            console.log('Chatbot: Successfully set composer value');
+          } catch (err) {
+            console.error('Chatbot: Error setting composer value:', err);
+          }
+          
+          // Clear the selectedText prop after use
+          if (onClearSelectedText) {
+            onClearSelectedText();
+          }
+        }, 100);
+
+        return () => clearTimeout(timer);
+      } else {
+        console.warn('Chatbot: selectedText present but setComposerValue is not available', { setComposerValue });
+      }
+    }
+  }, [selectedText, setComposerValue, focusComposer, onClearSelectedText]);
 
   const clearConversation = useCallback(() => {
     if (typeof window !== 'undefined') {
