@@ -171,13 +171,12 @@ function Chatbot({ selectedText, onClearSelectedText }) {
   }, [threadId]);
 
   const clearConversation = useCallback(() => {
-  if (typeof window !== 'undefined') {
-    localStorage.removeItem(LOCAL_STORAGE_THREAD_ID_KEY);
-  }
-  control.initThread({ threadId: undefined });
-  setErrorMessage(null);
-}, [control]);
-
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(LOCAL_STORAGE_THREAD_ID_KEY);
+    }
+    control.setThreadId(null); 
+    setErrorMessage(null);
+  }, [control]);
 
   if (!isReady) {
     return (
