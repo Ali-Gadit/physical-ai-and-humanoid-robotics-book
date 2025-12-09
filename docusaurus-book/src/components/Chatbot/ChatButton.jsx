@@ -1,16 +1,29 @@
 import React, { useState, useCallback } from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Chatbot from './Chatbot';
+import TextSelectionHandler from './TextSelectionHandler';
 
 function ChatButtonContent() {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [selectedText, setSelectedText] = useState(null);
 
   const toggleChat = useCallback(() => {
     setIsChatOpen((prev) => !prev);
   }, []);
 
+  const handleAskAssistant = useCallback((text) => {
+    setSelectedText(text);
+    setIsChatOpen(true);
+  }, []);
+
+  const handleClearSelectedText = useCallback(() => {
+    setSelectedText(null);
+  }, []);
+
   return (
     <>
+      <TextSelectionHandler onAskAssistant={handleAskAssistant} />
+
       <button
         onClick={toggleChat}
         style={{
@@ -41,7 +54,10 @@ function ChatButtonContent() {
             zIndex: 999,
           }}
         >
-          <Chatbot />
+          <Chatbot 
+            selectedText={selectedText}
+            onClearSelectedText={handleClearSelectedText}
+          />
         </div>
       )}
     </>
