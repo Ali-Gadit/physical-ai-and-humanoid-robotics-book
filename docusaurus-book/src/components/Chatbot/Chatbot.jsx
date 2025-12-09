@@ -194,11 +194,6 @@ function Chatbot({ selectedText, onClearSelectedText }) {
 
   return (
     <div style={getContainerStyle(isMobile, isTablet)}>
-      {/* Inject CDN script via Head for robustness */}
-      <Head>
-        <script src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js" type="module" async></script>
-      </Head>
-      
       <div style={headerStyle}>
         <span style={{ fontWeight: '600', fontSize: isMobile ? '14px' : '16px' }}>
           Textbook Tutor
