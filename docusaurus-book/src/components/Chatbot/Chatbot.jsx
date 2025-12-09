@@ -4,90 +4,99 @@ import { ChatKit, useChatKit } from '@openai/chatkit-react';
 
 const LOCAL_STORAGE_THREAD_ID_KEY = 'chatkit_thread_id';
 
-// Default theme colors for fallback
-const DEFAULT_PRIMARY_COLOR = '#2c5f9e';
-const DEFAULT_BACKGROUND_COLOR = '#ffffff';
-const DEFAULT_FONT_COLOR = '#333333';
-const DEFAULT_DANGER_COLOR = '#ff4444';
-const DEFAULT_DANGER_LIGHT = '#ffdddd';
+// Define styles based on Docusaurus theme variables
+const PRIMARY_COLOR = '#2c5f9e';
+const FONT_COLOR_BASE = '#333333';
+const FONT_FAMILY_UI = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 
-// Responsive container styles
-const getContainerStyle = (isMobile, isTablet) => ({
-  height: isMobile ? 'calc(100vh - 100px)' : isTablet ? '80vh' : '600px',
-  width: isMobile ? 'calc(100vw - 32px)' : isTablet ? 'calc(100vw - 64px)' : '400px',
-  maxWidth: isMobile ? '100%' : isTablet ? '600px' : '400px',
-  maxHeight: isMobile ? 'calc(100vh - 100px)' : isTablet ? '80vh' : '600px',
-  minHeight: isMobile ? '400px' : '450px',
-  minWidth: isMobile ? '280px' : '320px',
-  border: `1px solid ${DEFAULT_PRIMARY_COLOR}`,
-  borderRadius: '12px',
+// Responsive container - changes based on screen size
+const containerStyle = {
+  height: '600px',
+  width: '400px',
+  maxWidth: '100%', // Added for responsiveness
+  maxHeight: '90vh', // Added for responsiveness
+  border: `1px solid ${PRIMARY_COLOR}`,
+  borderRadius: '8px',
   overflow: 'hidden',
-  backgroundColor: DEFAULT_BACKGROUND_COLOR,
+  backgroundColor: '#ffffff',
   display: 'flex',
   flexDirection: 'column',
-  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-  color: DEFAULT_FONT_COLOR,
-  margin: isMobile ? '16px auto' : '0 auto',
-  position: 'relative',
-  transition: 'all 0.3s ease',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+  fontFamily: FONT_FAMILY_UI,
+  color: FONT_COLOR_BASE,
+  // Responsive properties
+  '@media (max-width: 768px)': {
+    height: 'calc(100vh - 200px)', // Full height minus some padding on mobile
+    width: 'calc(100vw - 32px)', // Full width minus padding
+    margin: '0 auto',
+  },
+  '@media (min-width: 769px) and (max-width: 1024px)': {
+    height: '70vh',
+    width: '500px',
+  }
+};
+
+// Inline style object for responsive container
+const getContainerStyle = (isMobile, isTablet) => ({
+  height: isMobile ? 'calc(100vh - 200px)' : isTablet ? '70vh' : '600px',
+  width: isMobile ? 'calc(100vw - 32px)' : isTablet ? '500px' : '400px',
+  maxWidth: '100%',
+  maxHeight: '90vh',
+  border: `1px solid ${PRIMARY_COLOR}`,
+  borderRadius: '8px',
+  overflow: 'hidden',
+  backgroundColor: '#ffffff',
+  display: 'flex',
+  flexDirection: 'column',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+  fontFamily: FONT_FAMILY_UI,
+  color: FONT_COLOR_BASE,
+  margin: '0 auto',
 });
 
-const getHeaderStyle = (isDarkMode = false) => ({
-  padding: '16px 20px',
-  borderBottom: `1px solid ${isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+const headerStyle = {
+  padding: '12px 16px',
+  borderBottom: `1px solid ${PRIMARY_COLOR}`,
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: DEFAULT_PRIMARY_COLOR,
+  backgroundColor: PRIMARY_COLOR,
   color: '#ffffff',
-  fontSize: 'clamp(16px, 2vw, 18px)',
-  flexShrink: 0,
-  minHeight: '56px',
-});
-
-const clearButtonStyle = {
-  background: 'rgba(255, 255, 255, 0.2)',
-  border: '1px solid rgba(255, 255, 255, 0.3)',
-  color: '#ffffff',
-  cursor: 'pointer',
-  fontSize: 'clamp(12px, 1.5vw, 14px)',
-  padding: '6px 12px',
-  borderRadius: '6px',
-  transition: 'all 0.2s ease',
-  whiteSpace: 'nowrap',
-  marginLeft: '12px',
+  fontSize: '16px',
+  flexShrink: 0, // Prevent header from shrinking
 };
 
-const chatContainerStyle = (isDarkMode = false) => ({
+const clearButtonStyle = {
+  background: 'none',
+  border: 'none',
+  color: '#ffffff',
+  cursor: 'pointer',
+  fontSize: '14px',
+  marginLeft: '10px',
+  padding: '4px 8px',
+  borderRadius: '4px',
+  transition: 'background-color 0.2s ease',
+  whiteSpace: 'nowrap', // Prevent button text from wrapping
+};
+
+const chatContainerStyle = {
   flexGrow: 1,
   position: 'relative',
   height: '100%',
   width: '100%',
-  backgroundColor: isDarkMode ? '#1a1a1a' : '#f8f8f8',
-  overflow: 'hidden',
-});
+  backgroundColor: '#f8f8f8',
+  overflow: 'hidden', // Important for responsive layout
+};
 
-const errorBannerStyle = (isDarkMode = false) => ({
-  padding: '10px 16px',
-  backgroundColor: isDarkMode ? 'rgba(255, 68, 68, 0.2)' : DEFAULT_DANGER_LIGHT,
-  color: isDarkMode ? '#ff8888' : DEFAULT_DANGER_COLOR,
-  borderBottom: `1px solid ${isDarkMode ? 'rgba(255, 68, 68, 0.3)' : '#ffaaaa'}`,
+const errorBannerStyle = {
+  padding: '8px',
+  backgroundColor: '#ffdddd',
+  color: '#cc0000',
+  borderBottom: '1px solid #ff0000',
   textAlign: 'center',
-  fontSize: 'clamp(0.8em, 2vw, 0.9em)',
-  flexShrink: 0,
-});
-
-const loadingStyle = (isDarkMode = false) => ({
-  flexGrow: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  color: isDarkMode ? '#ffffff' : DEFAULT_FONT_COLOR,
-  fontSize: 'clamp(14px, 2vw, 16px)',
-  padding: '20px',
-  textAlign: 'center',
-});
+  fontSize: '0.9em',
+  flexShrink: 0, // Prevent error banner from shrinking
+};
 
 function Chatbot({ selectedText, onClearSelectedText }) {
   const [initialThread, setInitialThread] = useState(null);
@@ -97,15 +106,12 @@ function Chatbot({ selectedText, onClearSelectedText }) {
     width: typeof window !== 'undefined' ? window.innerWidth : 1200,
     height: typeof window !== 'undefined' ? window.innerHeight : 800,
   });
-  
-  // Detect dark mode from localStorage or system preference
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Responsive breakpoints
+  // Detect screen size for responsiveness
   const isMobile = windowSize.width < 768;
   const isTablet = windowSize.width >= 768 && windowSize.width < 1024;
 
-  // Handle window resize and dark mode detection
+  // Handle window resize
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -116,43 +122,16 @@ function Chatbot({ selectedText, onClearSelectedText }) {
       });
     };
 
-    // Check for dark mode
-    const checkDarkMode = () => {
-      // First check localStorage
-      const storedMode = localStorage.getItem('theme');
-      if (storedMode === 'dark' || storedMode === 'light') {
-        setIsDarkMode(storedMode === 'dark');
-      } else {
-        // Check system preference
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(systemPrefersDark);
-      }
-    };
-
-    // Listen for theme changes
-    const themeChangeHandler = (e) => {
-      setIsDarkMode(e.matches);
-    };
-    
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    darkModeMediaQuery.addListener(themeChangeHandler);
-
     window.addEventListener('resize', handleResize);
-    
-    // Initial calls
-    handleResize();
-    checkDarkMode();
+    handleResize(); // Set initial size
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      darkModeMediaQuery.removeListener(themeChangeHandler);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const savedThread = localStorage.getItem(LOCAL_STORAGE_THREAD_ID_KEY);
+    const savedThread = typeof window !== 'undefined' 
+      ? localStorage.getItem(LOCAL_STORAGE_THREAD_ID_KEY) 
+      : null;
     setInitialThread(savedThread);
     setIsReady(true);
   }, []);
@@ -164,38 +143,18 @@ function Chatbot({ selectedText, onClearSelectedText }) {
     },
     initialThreadId: initialThread || undefined,
     theme: {
-      colorScheme: isDarkMode ? 'dark' : 'light',
+      colorScheme: 'light',
       color: {
-        accent: { 
-          primary: DEFAULT_PRIMARY_COLOR, 
-          level: 1 
-        },
+        accent: { primary: PRIMARY_COLOR, level: 1 },
       },
-      typography: { 
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-        fontSize: {
-          base: isMobile ? '14px' : '16px',
-        }
-      },
-      spacing: {
-        unit: isMobile ? 3 : 4,
-      }
+      typography: { fontFamily: FONT_FAMILY_UI },
     },
     startScreen: {
       greeting: "Hello! I'm your AI tutor for the Physical AI and Humanoid Robotics textbook. What can I help you with today?",
       prompts: [
-        { 
-          label: "What is Physical AI?", 
-          prompt: "What is Physical AI?" 
-        },
-        { 
-          label: "Explain Humanoid Robotics", 
-          prompt: "Explain Humanoid Robotics" 
-        },
-        { 
-          label: "Tell me about ROS2", 
-          prompt: "Tell me about ROS2" 
-        },
+        { label: "What is Physical AI?", prompt: "What is Physical AI?" },
+        { label: "Explain Humanoid Robotics", prompt: "Explain Humanoid Robotics" },
+        { label: "Tell me about ROS2", prompt: "Tell me about ROS2" },
       ],
     },
     onError: ({ error }) => {
@@ -215,25 +174,18 @@ function Chatbot({ selectedText, onClearSelectedText }) {
     if (typeof window !== 'undefined') {
       localStorage.removeItem(LOCAL_STORAGE_THREAD_ID_KEY);
     }
-    control.setThreadId(undefined);
+    control.setThreadId(undefined); 
     setErrorMessage(null);
   }, [control]);
 
   if (!isReady) {
     return (
       <div style={getContainerStyle(isMobile, isTablet)}>
-        <div style={getHeaderStyle(isDarkMode)}>
-          <span style={{ fontWeight: '600', fontSize: 'clamp(16px, 2vw, 18px)' }}>
-            Textbook Tutor
-          </span>
-          <button 
-            style={{ ...clearButtonStyle, opacity: 0.5 }} 
-            disabled
-          >
-            ...
-          </button>
+        <div style={headerStyle}>
+          <span style={{ fontWeight: '600', fontSize: '16px' }}>Textbook Tutor</span>
+          <button style={{ ...clearButtonStyle, opacity: 0.5 }} disabled>...</button>
         </div>
-        <div style={loadingStyle(isDarkMode)}>
+        <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', color: FONT_COLOR_BASE }}>
           Loading Chatbot UI...
         </div>
       </div>
@@ -244,48 +196,33 @@ function Chatbot({ selectedText, onClearSelectedText }) {
     <div style={getContainerStyle(isMobile, isTablet)}>
       {/* Inject CDN script via Head for robustness */}
       <Head>
-        <script 
-          src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js" 
-          type="module" 
-          async 
-        />
-        {/* Add viewport meta for mobile responsiveness */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <script src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js" type="module" async></script>
       </Head>
       
-      <div style={getHeaderStyle(isDarkMode)}>
-        <span style={{ 
-          fontWeight: '600', 
-          fontSize: 'clamp(16px, 2vw, 18px)',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap'
-        }}>
+      <div style={headerStyle}>
+        <span style={{ fontWeight: '600', fontSize: isMobile ? '14px' : '16px' }}>
           Textbook Tutor
         </span>
         <button 
           onClick={clearConversation} 
-          style={clearButtonStyle}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.3)'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
-          onFocus={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.3)'}
-          onBlur={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
-          aria-label="Clear chat conversation"
+          style={{
+            ...clearButtonStyle,
+            fontSize: isMobile ? '12px' : '14px',
+            padding: isMobile ? '3px 6px' : '4px 8px'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
         >
           Clear Chat
         </button>
       </div>
-      
       {errorMessage && (
-        <div style={errorBannerStyle(isDarkMode)}>
+        <div style={errorBannerStyle}>
           {errorMessage}
         </div>
       )}
-      
-      <div style={chatContainerStyle(isDarkMode)}>
-        <ChatKit 
-          control={control}
-        />
+      <div style={chatContainerStyle}>
+        <ChatKit control={control} />
       </div>
     </div>
   );
