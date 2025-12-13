@@ -83,6 +83,21 @@ const config = {
             label: 'Tutorial',
           },
           {
+            to: '/signup',
+            label: 'Sign Up',
+            position: 'right',
+          },
+          {
+            to: '/signin',
+            label: 'Sign In',
+            position: 'right',
+          },
+          {
+            to: '/signout',
+            label: 'Sign Out',
+            position: 'right',
+          },
+          {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
             position: 'right',
