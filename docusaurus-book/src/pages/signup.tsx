@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '@theme/Layout';
+import Link from '@docusaurus/Link';
 import SignupForm from '../components/Auth/SignupForm';
 
 export default function Signup() {
@@ -17,7 +18,7 @@ export default function Signup() {
                 <SignupForm />
               </div>
               <div className="card__footer text--center">
-                 <p>Already have an account? <a href="/signin">Sign In</a></p>
+                 <p>Already have an account? <Link to="/signin">Sign In</Link></p>
               </div>
             </div>
           </div>

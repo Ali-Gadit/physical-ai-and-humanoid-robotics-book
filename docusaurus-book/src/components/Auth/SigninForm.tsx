@@ -26,7 +26,7 @@ export default function SigninForm() {
         password: formData.password
       }, {
         onSuccess: () => {
-             history.push('/'); 
+             history.push('/physical-ai-and-humanoid-robotics-book/intro-physical-ai'); 
         },
         onError: (ctx) => {
             setError(ctx.error.message);

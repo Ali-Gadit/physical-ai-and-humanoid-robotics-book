@@ -78,27 +78,16 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'module1-ros2/overview',
+            docId: 'intro-physical-ai',
             position: 'left',
-            label: 'Tutorial',
+            label: 'Read Book',
           },
           {
-            to: '/signup',
-            label: 'Sign Up',
+            type: 'custom-auth',
             position: 'right',
           },
           {
-            to: '/signin',
-            label: 'Sign In',
-            position: 'right',
-          },
-          {
-            to: '/signout',
-            label: 'Sign Out',
-            position: 'right',
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/Ali-Gadit/physical-ai-and-humanoid-robotics-book',
             label: 'GitHub',
             position: 'right',
           },

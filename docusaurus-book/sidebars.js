@@ -28,7 +28,7 @@ const sidebars = {
         'intro-physical-ai',
         'hardware-requirements'
       ],
-      collapsed: false,
+      collapsed: true,
     },
     {
       type: 'category',
@@ -40,7 +40,7 @@ const sidebars = {
         'module1-ros2/urdf-humanoids',
         'module1-ros2/exercises'
       ],
-      collapsed: false,
+      collapsed: true,
     },
     {
       type: 'category',
@@ -53,7 +53,7 @@ const sidebars = {
         'module2-digital-twin/sensor-simulation',
         'module2-digital-twin/exercises'
       ],
-      collapsed: false,
+      collapsed: true,
     },
     {
       type: 'category',
@@ -65,7 +65,7 @@ const sidebars = {
         'module3-ai-brain/nav2-path-planning',
         'module3-ai-brain/exercises'
       ],
-      collapsed: false,
+      collapsed: true,
     },
     {
       type: 'category',
@@ -77,7 +77,7 @@ const sidebars = {
         'module4-vla/capstone-project',
         'module4-vla/exercises'
       ],
-      collapsed: false,
+      collapsed: true,
     },
     {
       type: 'category',
@@ -90,7 +90,7 @@ const sidebars = {
         'weekly/weeks11-12-humanoid',
         'weekly/week13-conversational-robotics'
       ],
-      collapsed: false,
+      collapsed: true,
     },
     {
       type: 'category',
@@ -101,7 +101,7 @@ const sidebars = {
         'support/troubleshooting',
         'support/best-practices'
       ],
-      collapsed: false,
+      collapsed: true,
     }
   ],
 };

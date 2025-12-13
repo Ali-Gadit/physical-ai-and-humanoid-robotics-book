@@ -8,15 +8,22 @@ export default function SignupForm() {
     name: '',
     email: '',
     password: '',
-    softwareSkillLevel: 'Beginner',
     preferredOs: 'Linux',
-    hardwareEnvironment: 'Local'
+    hardwareEnvironment: 'Local',
+    knowsPython: false,
+    softwareSkillLevel: 'Beginner'
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type } = e.target;
+    if (type === 'checkbox') {
+        const checked = (e.target as HTMLInputElement).checked;
+        setFormData(prev => ({ ...prev, [name]: checked }));
+    } else {
+        setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,13 +36,13 @@ export default function SignupForm() {
         email: formData.email,
         password: formData.password,
         name: formData.name,
-        // @ts-ignore - Extra fields defined in schema
-        softwareSkillLevel: formData.softwareSkillLevel,
+        // @ts-ignore
+        softwareSkillLevel: formData.knowsPython ? formData.softwareSkillLevel : 'Beginner',
         preferredOs: formData.preferredOs,
         hardwareEnvironment: formData.hardwareEnvironment
       }, {
         onSuccess: () => {
-             history.push('/'); 
+             history.push('/physical-ai-and-humanoid-robotics-book/intro-physical-ai'); 
         },
         onError: (ctx) => {
             setError(ctx.error.message);
@@ -92,19 +99,34 @@ export default function SignupForm() {
       </div>
       
       <div className="margin-bottom--md">
-        <label style={{display: 'block', marginBottom: '4px'}}>Software Skill Level</label>
-        <select 
-          className="button button--block button--outline" 
-          style={{textAlign: 'left', backgroundColor: 'var(--ifm-background-color)'}}
-          name="softwareSkillLevel" 
-          value={formData.softwareSkillLevel} 
-          onChange={handleChange}
-        >
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Expert">Expert</option>
-        </select>
+        <label style={{display: 'flex', alignItems: 'center', cursor: 'pointer'}}>
+            <input 
+                type="checkbox" 
+                name="knowsPython" 
+                checked={formData.knowsPython} 
+                onChange={handleChange}
+                style={{marginRight: '8px'}}
+            />
+            I have Python experience
+        </label>
       </div>
+
+      {formData.knowsPython && (
+          <div className="margin-bottom--md">
+            <label style={{display: 'block', marginBottom: '4px'}}>Python Skill Level</label>
+            <select 
+              className="button button--block button--outline" 
+              style={{textAlign: 'left', backgroundColor: 'var(--ifm-background-color)'}}
+              name="softwareSkillLevel" 
+              value={formData.softwareSkillLevel} 
+              onChange={handleChange}
+            >
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Expert">Expert</option>
+            </select>
+          </div>
+      )}
 
        <div className="margin-bottom--md">
         <label style={{display: 'block', marginBottom: '4px'}}>Preferred OS</label>

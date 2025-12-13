@@ -19,7 +19,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/module1-ros2/overview">
+            to="/physical-ai-and-humanoid-robotics-book/intro-physical-ai">
             Read the Textbook - 5min ⏱️
           </Link>
         </div>

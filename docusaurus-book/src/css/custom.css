@@ -262,3 +262,27 @@ html[data-theme='dark'] .hero__subtitle {
 html[data-theme='dark'] .features_xdhU {
   background-color: #000000; /* black background in dark mode */
 }
+/* Auth Form Input Styling */
+input.button, 
+select.button {
+  border: 1px solid var(--ifm-color-emphasis-300) !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] input.button,
+[data-theme='dark'] select.button {
+  background-color: var(--ifm-background-color) !important;
+  color: #ffffff !important;
+  border: 1px solid #555 !important;
+}
+
+/* Auth Page Footer Links */
+.card__footer a {
+  color: var(--ifm-color-primary);
+  text-decoration: underline;
+}
+
+.card__footer a:hover {
+  color: var(--ifm-color-primary-dark);
+}
+
