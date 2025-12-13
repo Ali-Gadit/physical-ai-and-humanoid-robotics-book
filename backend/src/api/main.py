@@ -12,7 +12,7 @@ app = FastAPI(title="RAG Chatbot API")
 # Add CORS middleware to allow requests from the frontend (Docusaurus)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Restrict to frontend for security
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "https://ali-gadit.github.io"],  # Allow deployed Docusaurus frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
