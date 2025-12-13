@@ -1,0 +1,151 @@
+openapi: 3.0.0
+info:
+  title: User Auth Service
+  version: 1.0.0
+  description: Authentication service using Better Auth
+servers:
+  - url: http://localhost:3000/api/auth
+    description: Local Dev Server
+
+paths:
+  /sign-up:
+    post:
+      summary: Register a new user
+      description: Create a new account with email, password, and onboarding data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name
+                - softwareSkillLevel
+                - preferredOs
+                - hardwareEnvironment
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  minLength: 8
+                name:
+                  type: string
+                image:
+                  type: string
+                softwareSkillLevel:
+                  type: string
+                  enum: [Beginner, Intermediate, Expert]
+                preferredOs:
+                  type: string
+                  enum: [Windows, macOS, Linux, Other]
+                hardwareEnvironment:
+                  type: string
+                  enum: [Local, Cloud]
+      responses:
+        '200':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  session:
+                    $ref: '#/components/schemas/Session'
+        '400':
+          description: Invalid input or user exists
+
+  /sign-in:
+    post:
+      summary: Sign in
+      description: Authenticate with email and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  session:
+                    $ref: '#/components/schemas/Session'
+        '401':
+          description: Invalid credentials
+
+  /sign-out:
+    post:
+      summary: Sign out
+      responses:
+        '200':
+          description: Signed out successfully
+
+  /session:
+    get:
+      summary: Get current session
+      responses:
+        '200':
+          description: Active session found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  session:
+                    $ref: '#/components/schemas/Session'
+        '401':
+          description: No active session
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+        softwareSkillLevel:
+          type: string
+        preferredOs:
+          type: string
+        hardwareEnvironment:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Session:
+      type: object
+      properties:
+        id:
+          type: string
+        token:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
