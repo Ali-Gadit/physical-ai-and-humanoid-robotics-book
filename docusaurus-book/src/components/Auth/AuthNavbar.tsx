@@ -2,6 +2,7 @@ import React from 'react';
 import { authClient } from '../../lib/auth-client';
 import { useHistory } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 interface AuthNavbarProps {
   mobile?: boolean;
@@ -11,10 +12,11 @@ interface AuthNavbarProps {
 export default function AuthNavbar({ mobile }: AuthNavbarProps) {
   const { data: session, isPending } = authClient.useSession();
   const history = useHistory();
+  const homeUrl = useBaseUrl('/');
 
   const handleSignOut = async () => {
     await authClient.signOut();
-    history.push('/');
+    history.push(homeUrl);
     window.location.reload(); 
   };
 

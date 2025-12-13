@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { useHistory } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import { authClient } from '../lib/auth-client';
 import Layout from '@theme/Layout';
 
 export default function Signout() {
   const history = useHistory();
+  const homeUrl = useBaseUrl('/');
 
   useEffect(() => {
     authClient.signOut().then(() => {
-      history.push('/signin');
+      history.push(homeUrl);
     });
-  }, [history]);
+  }, [history, homeUrl]);
 
   return (
     <Layout title="Sign Out">
