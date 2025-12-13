@@ -24,7 +24,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+// app.options('*', cors(corsOptions)); // Removed to fix Express 5 path error
 
 app.use("/api/auth", toNodeHandler(auth));
 
