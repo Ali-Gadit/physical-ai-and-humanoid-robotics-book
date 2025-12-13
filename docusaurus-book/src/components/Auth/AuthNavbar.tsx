@@ -3,7 +3,12 @@ import { authClient } from '../../lib/auth-client';
 import { useHistory } from '@docusaurus/router';
 import Link from '@docusaurus/Link';
 
-export default function AuthNavbar() {
+interface AuthNavbarProps {
+  mobile?: boolean;
+  [key: string]: any;
+}
+
+export default function AuthNavbar({ mobile }: AuthNavbarProps) {
   const { data: session, isPending } = authClient.useSession();
   const history = useHistory();
 
@@ -13,9 +18,37 @@ export default function AuthNavbar() {
     window.location.reload(); 
   };
 
-  if (isPending) return (
-      <div className="navbar__item">Loading...</div>
-  );
+  if (isPending) {
+      if (mobile) return <li className="menu__list-item"><div className="menu__link">Loading...</div></li>;
+      return <div className="navbar__item">Loading...</div>;
+  }
+
+  if (mobile) {
+      if (session) {
+          return (
+            <li className="menu__list-item">
+                <div className="menu__link">
+                    Hi, {session.user.name}
+                </div>
+                <div style={{padding: '0 1rem', marginBottom: '1rem'}}>
+                    <button className="button button--secondary button--block" onClick={handleSignOut}>
+                    Sign Out
+                    </button>
+                </div>
+            </li>
+          );
+      }
+      return (
+        <>
+            <li className="menu__list-item">
+                <Link className="menu__link" to="/signin">Sign In</Link>
+            </li>
+            <li className="menu__list-item">
+                <Link className="menu__link" to="/signup">Sign Up</Link>
+            </li>
+        </>
+      );
+  }
 
   if (session) {
     return (

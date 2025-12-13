@@ -10,6 +10,12 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
     },
+    advanced: {
+        cookie: {
+            secure: true,
+            sameSite: "none",
+        },
+    },
     user: {
         additionalFields: {
             softwareSkillLevel: {
