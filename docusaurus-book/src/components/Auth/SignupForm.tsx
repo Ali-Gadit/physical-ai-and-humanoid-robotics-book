@@ -50,7 +50,11 @@ export default function SignupForm() {
         }
       });
     } catch (err: any) {
-      setError(err.message || 'Signup failed');
+      let message = err.message || 'Signup failed';
+      if (message.toLowerCase().includes('failed to fetch')) {
+          message = 'Server not responding. Please try again later.';
+      }
+      setError(message);
       setLoading(false);
     }
   };

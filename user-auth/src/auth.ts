@@ -3,7 +3,7 @@ import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
 export const auth = betterAuth({
-    trustedOrigins: ["http://localhost:3001"],
+    trustedOrigins: ["http://localhost:3001", "https://ali-gadit.github.io"],
     database: new Pool({
         connectionString: process.env.NEON_DATABASE_URL,
     }),

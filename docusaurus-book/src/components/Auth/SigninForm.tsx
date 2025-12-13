@@ -34,7 +34,11 @@ export default function SigninForm() {
         }
       });
     } catch (err: any) {
-      setError(err.message || 'Signin failed');
+      let message = err.message || 'Signin failed';
+      if (message.toLowerCase().includes('failed to fetch')) {
+          message = 'Server not responding. Please try again later.';
+      }
+      setError(message);
       setLoading(false);
     }
   };
