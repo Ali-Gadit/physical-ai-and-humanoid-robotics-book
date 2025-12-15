@@ -4,91 +4,115 @@ title: "Module 2 - The Digital Twin (Gazebo & Unity)"
 sidebar_position: 1
 ---
 
-# Module 2: The Digital Twin (Gazebo & Unity)
+import BilingualChapter from '@site/src/components/BilingualChapter';
 
-## Overview
+<BilingualChapter>
+  <div className="english">
+    # Module 2: The Digital Twin (Gazebo & Unity)
 
-Welcome to Module 2 of the Physical AI & Humanoid Robotics course! In this module, we'll explore the concept of Digital Twins in robotics and learn to create sophisticated simulation environments using Gazebo and Unity. A Digital Twin is a virtual replica of a physical system that allows for testing, validation, and optimization before deploying to real hardware.
+    ## Overview
 
-Simulation is crucial in Physical AI because it provides a safe, cost-effective, and rapid way to test robotic algorithms and behaviors. For humanoid robots, which are expensive and potentially dangerous to test physically, simulation becomes even more critical.
+    Welcome to Module 2 of the Physical AI & Humanoid Robotics course! In this module, we'll explore the concept of Digital Twins in robotics and learn to create sophisticated simulation environments using Gazebo and Unity. A Digital Twin is a virtual replica of a physical system that allows for testing, validation, and optimization before deploying to real hardware.
 
-## Learning Objectives
+    Simulation is crucial in Physical AI because it provides a safe, cost-effective, and rapid way to test robotic algorithms and behaviors. For humanoid robots, which are expensive and potentially dangerous to test physically, simulation becomes even more critical.
 
-By the end of this module, you will be able to:
+    ## Learning Objectives
 
-1. Set up and configure Gazebo simulation environments
-2. Understand physics simulation including gravity, collisions, and material properties
-3. Simulate various sensors including LiDAR, depth cameras, and IMUs
-4. Create high-fidelity rendering and human-robot interaction scenarios in Unity
-5. Integrate simulation environments with ROS 2 for seamless testing
-6. Understand the principles of Sim-to-Real transfer
+    By the end of this module, you will be able to:
 
-## Module Structure
+    1. Set up and configure Gazebo simulation environments
+    2. Understand physics simulation including gravity, collisions, and material properties
+    3. Simulate various sensors including LiDAR, depth cameras, and IMUs
+    4. Create high-fidelity rendering and human-robot interaction scenarios in Unity
+    5. Integrate simulation environments with ROS 2 for seamless testing
+    6. Understand the principles of Sim-to-Real transfer
 
-This module is divided into several key components:
+    ## Module Structure
 
-- **Gazebo Simulation**: Setting up physics-based simulation environments
-- **Physics Simulation**: Understanding gravity, collisions, and material properties
-- **Sensor Simulation**: Creating realistic sensor data in simulation
-- **Unity Integration**: High-fidelity rendering and interaction
-- **Practical Exercises**: Hands-on examples to reinforce concepts
+    This module is divided into several key components:
 
-## The Digital Twin Concept
+    - **Gazebo Simulation**: Setting up physics-based simulation environments
+    - **Physics Simulation**: Understanding gravity, collisions, and material properties
+    - **Sensor Simulation**: Creating realistic sensor data in simulation
+    - **Unity Integration**: High-fidelity rendering and interaction
+    - **Practical Exercises**: Hands-on examples to reinforce concepts
 
-A Digital Twin in robotics serves multiple purposes:
+    ## The Digital Twin Concept
 
-- **Testing Ground**: Validate algorithms without risk to expensive hardware
-- **Training Environment**: Train machine learning models in diverse scenarios
-- **Design Tool**: Test robot designs before physical construction
-- **Safety Validation**: Ensure robot behaviors are safe before real-world deployment
+    A Digital Twin in robotics serves multiple purposes:
 
-For humanoid robots, digital twins are particularly important because:
+    - **Testing Ground**: Validate algorithms without risk to expensive hardware
+    - **Training Environment**: Train machine learning models in diverse scenarios
+    - **Design Tool**: Test robot designs before physical construction
+    - **Safety Validation**: Ensure robot behaviors are safe before real-world deployment
 
-- Humanoid robots are complex with many degrees of freedom
-- Physical testing can be dangerous to the robot and environment
-- Training for bipedal locomotion requires extensive trial and error
-- Social interaction scenarios need to be tested safely
+    For humanoid robots, digital twins are particularly important because:
 
-## Why Simulation Matters for Physical AI
+    - Humanoid robots are complex with many degrees of freedom
+    - Physical testing can be dangerous to the robot and environment
+    - Training for bipedal locomotion requires extensive trial and error
+    - Social interaction scenarios need to be tested safely
 
-Simulation is not just a convenience—it's a necessity for Physical AI development:
+    ## Why Simulation Matters for Physical AI
 
-1. **Safety**: Test dangerous behaviors in a safe environment
-2. **Speed**: Run experiments much faster than real-time
-3. **Cost**: Avoid wear and tear on physical robots
-4. **Repeatability**: Create identical conditions for scientific testing
-5. **Scalability**: Test multiple robots simultaneously
-6. **Edge Cases**: Simulate rare or dangerous scenarios safely
+    Simulation is not just a convenience—it's a necessity for Physical AI development:
 
-## Simulation vs. Reality Gap
+    1. **Safety**: Test dangerous behaviors in a safe environment
+    2. **Speed**: Run experiments much faster than real-time
+    3. **Cost**: Avoid wear and tear on physical robots
+    4. **Repeatability**: Create identical conditions for scientific testing
+    5. **Scalability**: Test multiple robots simultaneously
+    6. **Edge Cases**: Simulate rare or dangerous scenarios safely
 
-One of the biggest challenges in robotics is the "reality gap"—the difference between simulated and real environments. We'll explore techniques to minimize this gap and ensure that algorithms trained in simulation work effectively on real robots.
+    ## Simulation vs. Reality Gap
 
-## Prerequisites
+    One of the biggest challenges in robotics is the "reality gap"—the difference between simulated and real environments. We'll explore techniques to minimize this gap and ensure that algorithms trained in simulation work effectively on real robots.
 
-Before starting this module, ensure you have:
+    ## Prerequisites
 
-- Completed Module 1 (ROS 2 fundamentals)
-- Access to a system meeting the hardware requirements (RTX GPU recommended)
-- Basic understanding of physics concepts
-- Familiarity with 3D environments
+    Before starting this module, ensure you have:
 
-## Tools We'll Use
+    - Completed Module 1 (ROS 2 fundamentals)
+    - Access to a system meeting the hardware requirements (RTX GPU recommended)
+    - Basic understanding of physics concepts
+    - Familiarity with 3D environments
 
-### Gazebo
-Gazebo is a 3D simulation environment that provides:
-- High-fidelity physics simulation
-- Sensor simulation
-- Realistic rendering
-- ROS integration
+    ## Tools We'll Use
 
-### Unity
-Unity provides:
-- High-quality graphics rendering
-- Complex environment creation
-- Human-robot interaction scenarios
-- VR/AR integration capabilities
+    ### Gazebo
+    Gazebo is a 3D simulation environment that provides:
+    - High-fidelity physics simulation
+    - Sensor simulation
+    - Realistic rendering
+    - ROS integration
 
-## Getting Started
+    ### Unity
+    Unity provides:
+    - High-quality graphics rendering
+    - Complex environment creation
+    - Human-robot interaction scenarios
+    - VR/AR integration capabilities
 
-Let's begin by exploring Gazebo simulation environments and understanding how to create realistic physics simulations for humanoid robots.
+    ## Getting Started
+
+    Let's begin by exploring Gazebo simulation environments and understanding how to create realistic physics simulations for humanoid robots.
+  </div>
+  <div className="urdu">
+    # Module 2: Digital Twins
+
+    ## جائزہ
+
+    اس ماڈیول میں، ہم سیکھیں گے کہ Gazebo اور Unity کا استعمال کرتے ہوئے اپنے روبوٹ کے Digital Twins کیسے بنائیں۔
+
+    ### سیکھنے کے مقاصد
+
+    *   Gazebo میں سیمولیشن کا ماحول (simulation environment) ترتیب دیں۔
+    *   URDF ماڈلز کو سمیلیٹر میں درآمد (import) کریں۔
+    *   طبیعیات (کشش ثقل، ٹکراؤ، رگڑ) کی نقالی کریں۔
+    *   روبوٹ میں سینسرز (Lidar، Camera، IMU) شامل کریں۔
+
+    ## Digital Twin کیا ہے؟
+
+    Digital Twin کسی طبعی شے (physical object) یا نظام کی ورچوئل نمائندگی ہے۔ روبوٹکس میں، یہ ہمیں حقیقی ہارڈ ویئر پر کوڈ تعینات کرنے سے پہلے اسے محفوظ طریقے سے ٹیسٹ کرنے کی اجازت دیتا ہے۔
+  </div>
+</BilingualChapter>

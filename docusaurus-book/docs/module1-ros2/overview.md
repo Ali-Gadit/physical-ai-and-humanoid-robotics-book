@@ -4,53 +4,77 @@ title: "Module 1 - The Robotic Nervous System (ROS 2)"
 sidebar_position: 1
 ---
 
-# Module 1: The Robotic Nervous System (ROS 2)
+import BilingualChapter from '@site/src/components/BilingualChapter';
 
-## Overview
+<BilingualChapter>
+  <div className="english">
+    # Module 1: The Robotic Nervous System (ROS 2)
 
-Welcome to Module 1 of the Physical AI & Humanoid Robotics course! In this module, we'll explore the Robot Operating System 2 (ROS 2), which serves as the nervous system for robotic platforms. Just as the nervous system coordinates the human body's responses to stimuli, ROS 2 provides the communication infrastructure that allows different components of a robot to work together seamlessly.
+    ## Overview
 
-ROS 2 is not an operating system in the traditional sense, but rather a middleware framework that provides services such as hardware abstraction, device drivers, libraries, visualizers, message-passing, package management, and more. It's the foundation upon which all other robotic capabilities are built.
+    Welcome to Module 1 of the Physical AI & Humanoid Robotics course! In this module, we'll explore the Robot Operating System 2 (ROS 2), which serves as the nervous system for robotic platforms. Just as the nervous system coordinates the human body's responses to stimuli, ROS 2 provides the communication infrastructure that allows different components of a robot to work together seamlessly.
 
-## Learning Objectives
+    ROS 2 is not an operating system in the traditional sense, but rather a middleware framework that provides services such as hardware abstraction, device drivers, libraries, visualizers, message-passing, package management, and more. It's the foundation upon which all other robotic capabilities are built.
 
-By the end of this module, you will be able to:
+    ## Learning Objectives
 
-1. Understand the architecture and core concepts of ROS 2
-2. Create and manage ROS 2 nodes for different robot components
-3. Implement communication between nodes using topics and services
-4. Use rclpy to bridge Python agents to ROS controllers
-5. Understand and work with URDF (Unified Robot Description Format) for humanoid robots
-6. Develop basic ROS 2 packages with Python
+    By the end of this module, you will be able to:
 
-## Module Structure
+    1. Understand the architecture and core concepts of ROS 2
+    2. Create and manage ROS 2 nodes for different robot components
+    3. Implement communication between nodes using topics and services
+    4. Use rclpy to bridge Python agents to ROS controllers
+    5. Understand and work with URDF (Unified Robot Description Format) for humanoid robots
+    6. Develop basic ROS 2 packages with Python
 
-This module is divided into several key components:
+    ## Module Structure
 
-- **ROS 2 Architecture**: Understanding the fundamental concepts of nodes, topics, services, and actions
-- **Python Integration**: Using rclpy to create Python-based ROS 2 nodes
-- **Robot Description**: Working with URDF to describe humanoid robots
-- **Practical Exercises**: Hands-on examples to reinforce concepts
+    This module is divided into several key components:
 
-## Why ROS 2 Matters for Physical AI
+    - **ROS 2 Architecture**: Understanding the fundamental concepts of nodes, topics, services, and actions
+    - **Python Integration**: Using rclpy to create Python-based ROS 2 nodes
+    - **Robot Description**: Working with URDF to describe humanoid robots
+    - **Practical Exercises**: Hands-on examples to reinforce concepts
 
-ROS 2 is crucial for Physical AI because it provides the standardized communication layer that allows different sensors, actuators, and AI components to work together. Without a common framework like ROS 2, integrating vision systems, control algorithms, and physical actuators would be extremely complex and inconsistent across different robot platforms.
+    ## Why ROS 2 Matters for Physical AI
 
-In the context of humanoid robotics, ROS 2 enables:
+    ROS 2 is crucial for Physical AI because it provides the standardized communication layer that allows different sensors, actuators, and AI components to work together. Without a common framework like ROS 2, integrating vision systems, control algorithms, and physical actuators would be extremely complex and inconsistent across different robot platforms.
 
-- Coordination between multiple joint controllers
-- Integration of sensor data from various sources (IMUs, cameras, LiDAR)
-- Standardized interfaces for perception and planning algorithms
-- Consistent development and debugging tools across different robot types
+    In the context of humanoid robotics, ROS 2 enables:
 
-## Prerequisites
+    - Coordination between multiple joint controllers
+    - Integration of sensor data from various sources (IMUs, cameras, LiDAR)
+    - Standardized interfaces for perception and planning algorithms
+    - Consistent development and debugging tools across different robot types
 
-Before starting this module, ensure you have:
+    ## Prerequisites
 
-- Basic Python programming knowledge
-- Understanding of fundamental programming concepts (functions, classes, modules)
-- Access to a system that meets the hardware requirements outlined in the introduction
+    Before starting this module, ensure you have:
 
-## Getting Started
+    - Basic Python programming knowledge
+    - Understanding of fundamental programming concepts (functions, classes, modules)
+    - Access to a system that meets the hardware requirements outlined in the introduction
 
-Let's begin by exploring the fundamental concepts of ROS 2 architecture and how nodes communicate with each other through topics and services.
+    ## Getting Started
+
+    Let's begin by exploring the fundamental concepts of ROS 2 architecture and how nodes communicate with each other through topics and services.
+  </div>
+  <div className="urdu">
+    # Module 1: ROS 2 Fundamentals
+
+    ## جائزہ
+
+    اس ماڈیول میں، ہم Robot Operating System 2 (ROS 2) کے بنیادی تصورات کا احاطہ کریں گے۔
+
+    ### سیکھنے کے مقاصد
+
+    *   Nodes، Topics، اور Services کو سمجھیں۔
+    *   Python میں publishers اور subscribers لکھیں۔
+    *   کسٹم میسج کی اقسام (custom message types) بنائیں۔
+    *   Rviz2 میں ڈیٹا کو ویژولائز (Visualize) کریں۔
+
+    ## ROS 2 کیا ہے؟
+
+    ROS 2 سافٹ ویئر لائبریریز اور ٹولز کا ایک سیٹ ہے جو آپ کو روبوٹ ایپلی کیشنز بنانے میں مدد کرتا ہے۔ یہ ہارڈ ویئر تجرید (hardware abstraction)، ڈیوائس ڈرائیورز، اور عمل کے درمیان مواصلات فراہم کرتا ہے۔
+  </div>
+</BilingualChapter>

@@ -4,492 +4,601 @@ title: "Weeks 6-7 - Robot Simulation with Gazebo"
 sidebar_position: 3
 ---
 
-# Weeks 6-7: Robot Simulation with Gazebo
+import BilingualChapter from '@site/src/components/BilingualChapter';
 
-## Overview
+<BilingualChapter>
+  <div className="english">
+    # Weeks 6-7: Robot Simulation with Gazebo
 
-During Weeks 6-7, students focus on Gazebo simulation environment setup, physics simulation including gravity and collisions, and sensor simulation for robot development. This phase builds on the ROS 2 foundations learned in previous weeks and prepares students for advanced simulation techniques used in humanoid robotics.
+    ## Overview
 
-## Learning Objectives
+    Welcome to Weeks 6-7 of the Physical AI & Humanoid Robotics course! During these weeks, you'll explore the power of Gazebo as a simulation environment for robotics. Gazebo serves as the digital twin for physical robots, allowing you to test and validate your algorithms in a safe, controllable, and repeatable environment before deploying to real hardware.
 
-By the end of Weeks 6-7, students will be able to:
+    Simulation is crucial for Physical AI development because it provides:
+    - **Safe Testing**: Validate algorithms without risk to hardware or humans
+    - **Controlled Environments**: Reproducible conditions for debugging
+    - **Physics Simulation**: Accurate modeling of physical laws and interactions
+    - **Cost Efficiency**: Reduce hardware wear and accelerate development cycles
+    - **Scalability**: Test with multiple robots and complex scenarios
 
-1. Set up and configure Gazebo simulation environments
-2. Understand physics simulation including gravity, collisions, and material properties
-3. Simulate various sensors including LiDAR, depth cameras, and IMUs
-4. Create high-fidelity rendering and human-robot interaction scenarios
-5. Integrate simulation environments with ROS 2 for seamless testing
-6. Understand the principles of Sim-to-Real transfer
+    ## Learning Objectives
 
-## Week 6: Gazebo Simulation Environment Setup
+    By the end of Weeks 6-7, you will be able to:
 
-### Day 26: Introduction to Gazebo and Environment Setup
+    1. Understand the architecture and capabilities of Gazebo simulation
+    2. Create and configure robot models for Gazebo simulation
+    3. Design and build custom simulation environments
+    4. Integrate Gazebo with ROS 2 for realistic robot simulation
+    5. Configure physics properties and sensor models for accurate simulation
+    6. Implement sensor simulation including cameras, LIDAR, and IMUs
+    7. Validate robot behaviors in simulation before real-world deployment
 
-#### Gazebo Installation and Configuration
+    ## Week 6: Gazebo Fundamentals and Environment Setup
 
-Gazebo is a 3D simulation environment that provides physics simulation, realistic rendering, and sensor simulation capabilities. For Physical AI and humanoid robotics, Gazebo serves as a critical testing ground where complex behaviors can be developed and validated before deployment to real hardware.
+    ### Day 1: Introduction to Gazebo Simulation
 
-**Installation Prerequisites:**
-- Ubuntu 22.04 LTS
-- ROS 2 Humble Hawksbill
-- NVIDIA RTX GPU (recommended for high-fidelity rendering)
+    #### What is Gazebo?
 
-**Basic Installation:**
-```bash
-# Install Gazebo Garden
-sudo apt update && sudo apt install gazebo-garden
+    Gazebo is a 3D dynamic simulator with the ability to accurately and efficiently simulate populations of robots in complex indoor and outdoor environments. It provides:
 
-# Install ROS 2 Gazebo packages
-sudo apt install ros-humble-gazebo-ros-pkgs ros-humble-gazebo-ros2-control
-```
+    - **High-fidelity physics**: Accurate simulation of rigid-body dynamics
+    - **Realistic rendering**: High-quality graphics for sensor simulation
+    - **Extensible plugin system**: Custom plugins for sensors and controllers
+    - **Large community**: Extensive models and examples available
+    - **ROS integration**: Seamless integration with ROS and ROS 2
 
-#### Core Components of Gazebo
+    #### Key Features of Gazebo
 
-1. **Gazebo Server (gzserver)**: Runs the physics simulation and handles all computational aspects
-2. **Gazebo Client (gzclient)**: Provides the visual interface for the simulation
-3. **Models and Worlds**: Represent objects and environments in the simulation
+    **Physics Engine**: Based on ODE (Open Dynamics Engine) for realistic physics simulation
+    - Collision detection and response
+    - Friction and contact modeling
+    - Gravity and environmental forces
+    - Joint constraints and limits
 
-### Day 27: World Files and Physics Configuration
+    **Sensor Simulation**: Accurate modeling of various sensors:
+    - Camera sensors (RGB, depth, stereo)
+    - LIDAR and laser rangefinders
+    - IMU and accelerometer sensors
+    - Force/torque sensors
+    - GPS and magnetometer sensors
 
-#### World File Structure
+    **Rendering**: High-quality visualization capabilities:
+    - OpenGL-based graphics rendering
+    - Dynamic lighting and shadows
+    - Texture mapping and materials
+    - Realistic visual effects
 
-A world file defines the simulation environment including physics properties, lighting, and initial model positions:
+    ### Day 2: Gazebo Architecture and Components
 
-```xml
-<?xml version="1.0" ?>
-<sdf version="1.7">
-  <world name="default">
-    <!-- Physics engine configuration -->
-    <physics name="1ms" type="ode">
-      <max_step_size>0.001</max_step_size>
-      <real_time_factor>1.0</real_time_factor>
-      <real_time_update_rate>1000.0</real_time_update_rate>
+    #### Core Architecture
+
+    ```
+    ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+    │   Gazebo GUI   │◄──►│  Gazebo Server   │◄──►│  Plugin System  │
+    │  (gzclient)    │    │   (gzserver)     │    │                 │
+    └─────────────────┘    └──────────────────┘    └─────────────────┘
+             │                       │                        │
+             ▼                       ▼                        ▼
+    ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+    │ Visualization   │    │ Physics Engine  │    │ Sensors & Ctrl │
+    │ & Interaction   │    │ (ODE, Bullet)   │    │ (Plugins)       │
+    └─────────────────┘    └──────────────────┘    └─────────────────┘
+    ```
+
+    #### Gazebo Components
+
+    **Gazebo Server (gzserver)**: Runs the physics simulation and handles models
+    - Manages simulation time and physics calculations
+    - Handles model spawning and destruction
+    - Provides services for simulation control
+
+    **Gazebo Client (gzclient)**: Provides the graphical user interface
+    - 3D visualization of the simulation
+    - Camera controls and scene interaction
+    - Statistics and information display
+
+    **Plugin System**: Extensible architecture for custom functionality
+    - Sensor plugins for various sensor types
+    - Controller plugins for robot control
+    - World plugins for custom simulation logic
+    - GUI plugins for custom interfaces
+
+    ### Day 3: Setting Up Gazebo with ROS 2
+
+    #### ROS 2 Integration
+
+    Gazebo integrates with ROS 2 through several packages:
+
+    - **gazebo_ros_pkgs**: Core ROS 2 packages for Gazebo integration
+    - **gazebo_plugins**: Various sensor and controller plugins
+    - **gazebo_dev**: Development tools and headers
+    - **ros_gz**: Bridge packages for ROS 2 ↔ Gazebo communication
+
+    #### Installation and Configuration
+
+    ```bash
+    # Install Gazebo Garden (recommended version)
+    sudo apt update
+    sudo apt install ros-humble-gazebo-*
+
+    # Verify installation
+    gz --version
+    ```
+
+    #### Basic Gazebo Commands
+
+    ```bash
+    # Start Gazebo server
+    gz sim -r empty.sdf
+
+    # Start Gazebo with GUI
+    gz sim -g -r empty.sdf
+
+    # List available worlds
+    ls /usr/share/gazebo/worlds/
+    ```
+
+    ### Day 4: Creating Your First Gazebo World
+
+    #### World File Structure
+
+    Gazebo worlds are defined in SDF (Simulation Description Format) files:
+
+    ```xml
+    <?xml version="1.0" ?>
+    <sdf version="1.7">
+      <world name="default">
+        <!-- Physics engine -->
+        <physics name="1ms" type="ode">
+          <max_step_size>0.001</max_step_size>
+          <real_time_factor>1</real_time_factor>
+          <real_time_update_rate>1000.0</real_time_update_rate>
+          <gravity>0 0 -9.8</gravity>
+        </physics>
+
+        <!-- Lighting -->
+        <light name="sun" type="directional">
+          <cast_shadows>true</cast_shadows>
+          <pose>0 0 10 0 0 0</pose>
+          <diffuse>0.8 0.8 0.8 1</diffuse>
+          <specular>0.2 0.2 0.2 1</specular>
+          <attenuation>
+            <range>1000</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+          </attenuation>
+          <direction>-0.3 0.3 -1</direction>
+        </light>
+
+        <!-- Ground plane -->
+        <model name="ground_plane">
+          <static>true</static>
+          <link name="link">
+            <collision name="collision">
+              <geometry>
+                <plane>
+                  <normal>0 0 1</normal>
+                  <size>100 100</size>
+                </plane>
+              </geometry>
+            </collision>
+            <visual name="visual">
+              <geometry>
+                <plane>
+                  <normal>0 0 1</normal>
+                  <size>100 100</size>
+                </plane>
+              </geometry>
+              <material>
+                <ambient>0.8 0.8 0.8 1</ambient>
+                <diffuse>0.8 0.8 0.8 1</diffuse>
+                <specular>0.8 0.8 0.8 1</specular>
+              </material>
+            </visual>
+          </link>
+        </model>
+      </world>
+    </sdf>
+    ```
+
+    ### Day 5: Understanding Physics Simulation
+
+    #### Physics Properties
+
+    Accurate physics simulation is crucial for sim-to-real transfer:
+
+    - **Gravity**: Typically -9.8 m/s² on Earth
+    - **Friction**: Static and dynamic friction coefficients
+    - **Restitution**: Bounciness of collisions (0.0-1.0)
+    - **Damping**: Energy loss in joints and motion
+
+    #### Tuning Physics Parameters
+
+    ```xml
+    <physics name="ode" type="ode">
+      <!-- Time stepping -->
+      <max_step_size>0.001</max_step_size>  <!-- Smaller = more accurate but slower -->
+      <real_time_factor>1.0</real_time_factor>  <!-- Simulation speed multiplier -->
+      <real_time_update_rate>1000.0</real_time_update_rate>  <!-- Hz -->
+
+      <!-- Gravity -->
+      <gravity>0 0 -9.8</gravity>
+
+      <!-- Solver -->
+      <ode>
+        <solver>
+          <type>quick</type>
+          <iters>100</iters>  <!-- Iterations per step -->
+          <sor>1.0</sor>      <!-- Successive over-relaxation -->
+        </solver>
+        <constraints>
+          <cfm>0.0</cfm>      <!-- Constraint force mixing -->
+          <erp>0.2</erp>      <!-- Error reduction parameter -->
+          <contact_max_correcting_vel>100.0</contact_max_correcting_vel>
+          <contact_surface_layer>0.001</contact_surface_layer>
+        </constraints>
+      </ode>
     </physics>
+    ```
 
-    <!-- Lighting -->
-    <light name="sun" type="directional">
-      <cast_shadows>true</cast_shadows>
-      <pose>0 0 10 0 0 0</pose>
-      <diffuse>0.8 0.8 0.8 1</diffuse>
-      <specular>0.2 0.2 0.2 1</specular>
-      <direction>-0.3 0.3 -1</direction>
-    </light>
+    ## Week 7: Advanced Simulation and Integration
 
-    <!-- Ground plane -->
-    <model name="ground_plane">
-      <static>true</static>
-      <link name="link">
+    ### Day 6: Robot Model Integration in Gazebo
+
+    #### Adding Robots to Gazebo
+
+    Robots are integrated into Gazebo using URDF models with Gazebo-specific extensions:
+
+    ```xml
+    <!-- In your robot URDF/XACRO file -->
+    <gazebo reference="base_link">
+      <material>Gazebo/Blue</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <kp>1000000.0</kp>  <!-- Contact stiffness -->
+      <kd>100.0</kd>      <!-- Contact damping -->
+    </gazebo>
+
+    <!-- Adding differential drive controller -->
+    <gazebo>
+      <plugin filename="libgazebo_ros_diff_drive.so" name="diff_drive">
+        <ros>
+          <namespace>/my_robot</namespace>
+          <remapping>cmd_vel:=cmd_vel</remapping>
+          <remapping>odom:=odom</remapping>
+        </ros>
+        <update_rate>30</update_rate>
+        <left_joint>left_wheel_joint</left_joint>
+        <right_joint>right_wheel_joint</right_joint>
+        <wheel_separation>0.3</wheel_separation>
+        <wheel_diameter>0.15</wheel_diameter>
+        <max_wheel_torque>20</max_wheel_torque>
+        <max_wheel_acceleration>1.0</max_wheel_acceleration>
+        <publish_odom>true</publish_odom>
+        <publish_odom_tf>true</publish_odom_tf>
+        <odometry_frame>odom</odometry_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+      </plugin>
+    </gazebo>
+    ```
+
+    #### Spawning Robots in Simulation
+
+    ```bash
+    # Spawn robot from URDF file
+    ros2 run gazebo_ros spawn_entity.py -entity my_robot -file /path/to/robot.urdf
+
+    # Spawn with position
+    ros2 run gazebo_ros spawn_entity.py -entity my_robot -file /path/to/robot.urdf -x 1.0 -y 2.0 -z 0.0
+
+    # Spawn via launch file
+    <node pkg="gazebo_ros" exec="spawn_entity.py" args="-entity my_robot -file $(find-pkg-share my_robot_description)/urdf/robot.urdf">
+    </node>
+    ```
+
+    ### Day 7: Sensor Simulation in Gazebo
+
+    #### Camera Sensors
+
+    ```xml
+    <gazebo reference="camera_link">
+      <sensor name="camera" type="camera">
+        <update_rate>30</update_rate>
+        <camera name="head">
+          <horizontal_fov>1.3962634</horizontal_fov>  <!-- 80 degrees -->
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+        </camera>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <plugin filename="libgazebo_ros_camera.so" name="camera_controller">
+          <ros>
+            <namespace>/my_robot</namespace>
+            <remapping>~/image_raw:=camera/image_raw</remapping>
+            <remapping>~/camera_info:=camera/camera_info</remapping>
+          </ros>
+          <camera_name>camera</camera_name>
+          <frame_name>camera_link</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+    ```
+
+    #### LIDAR Sensors
+
+    ```xml
+    <gazebo reference="lidar_link">
+      <sensor name="lidar" type="gpu_lidar">
+        <update_rate>10</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1.0</resolution>
+              <min_angle>-3.14159</min_angle>  <!-- -π -->
+              <max_angle>3.14159</max_angle>    <!-- π -->
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.1</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+          </range>
+        </ray>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <plugin filename="libgazebo_ros_gpu_lidar.so" name="gpu_lidar_plugin">
+          <ros>
+            <namespace>/my_robot</namespace>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <frame_name>lidar_link</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+    ```
+
+    #### IMU Sensors
+
+    ```xml
+    <gazebo reference="imu_link">
+      <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>false</visualize>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+          <ros>
+            <namespace>/my_robot</namespace>
+            <remapping>~/out:=imu</remapping>
+          </ros>
+          <frame_name>imu_link</frame_name>
+        </plugin>
+      </sensor>
+    </gazebo>
+    ```
+
+    ### Day 8: Environment Design and Modeling
+
+    #### Creating Custom Worlds
+
+    Designing realistic environments for humanoid robots:
+
+    - **Human-scale environments**: Doorways, furniture, stairs
+    - **Physics-appropriate materials**: Friction, restitution, damping
+    - **Lighting conditions**: Indoor/outdoor variations
+    - **Dynamic elements**: Moving objects, people
+
+    #### Building Complex Environments
+
+    ```xml
+    <!-- Example: Living room environment -->
+    <model name="living_room">
+      <pose>0 0 0 0 0 0</pose>
+      <link name="floor">
         <collision name="collision">
           <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
+            <box>
+              <size>5 4 0.1</size>
+            </box>
           </geometry>
         </collision>
         <visual name="visual">
           <geometry>
-            <plane>
-              <normal>0 0 1</normal>
-              <size>100 100</size>
-            </plane>
+            <box>
+              <size>5 4 0.1</size>
+            </box>
           </geometry>
           <material>
-            <ambient>0.7 0.7 0.7 1</ambient>
-            <diffuse>0.7 0.7 0.7 1</diffuse>
-            <specular>0.7 0.7 0.7 1</specular>
+            <ambient>0.8 0.6 0.2 1</ambient>
+            <diffuse>0.8 0.6 0.2 1</diffuse>
           </material>
         </visual>
       </link>
     </model>
 
-    <!-- Include robot -->
-    <include>
-      <uri>model://my_robot</uri>
-      <pose>0 0 1 0 0 0</pose>
-    </include>
-  </world>
-</sdf>
-```
+    <!-- Furniture -->
+    <model name="sofa">
+      <pose>2 1 0 0 0 0</pose>
+      <!-- Sofa model definition -->
+    </model>
+    ```
 
-### Day 28: Robot Models and URDF Integration
+    ### Day 9: Physics Tuning for Humanoid Robots
 
-#### Creating Robot Models for Simulation
+    #### Balancing and Stability
 
-Robot models in Gazebo can be defined using SDF (Simulation Description Format) or imported from URDF (Unified Robot Description Format). For humanoid robots, URDF is typically used and converted to SDF internally.
+    Humanoid robots require special attention to physics parameters:
 
-**URDF to Gazebo Integration:**
-```xml
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="humanoid_robot">
-  <!-- Include Gazebo-specific plugins -->
-  <gazebo>
-    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-      <parameters>$(find-pkg-share my_robot_description)/config/my_robot_controllers.yaml</parameters>
-    </plugin>
-  </gazebo>
+    - **Center of Mass**: Accurate CoM placement for stable walking
+    - **Inertia Tensors**: Realistic mass distribution
+    - **Joint Damping**: Appropriate for natural movement
+    - **Foot Contact**: Accurate friction for walking stability
 
-  <!-- Sensor plugins -->
-  <gazebo reference="head_camera">
-    <sensor name="camera" type="camera">
-      <camera>
-        <horizontal_fov>1.089</horizontal_fov>
-        <image>
-          <width>640</width>
-          <height>480</height>
-        </image>
-        <clip>
-          <near>0.1</near>
-          <far>10.0</far>
-        </clip>
-      </camera>
-      <always_on>true</always_on>
-      <update_rate>30</update_rate>
-      <visualize>true</visualize>
-    </sensor>
-  </gazebo>
-</robot>
-```
+    #### Walking Dynamics
 
-### Day 29: Launch Files and ROS 2 Integration
+    ```xml
+    <!-- Example joint configuration for humanoid leg -->
+    <joint name="hip_joint" type="revolute">
+      <parent>torso</parent>
+      <child>thigh</child>
+      <origin xyz="0 0 -0.1" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-1.57" upper="1.57" effort="100" velocity="2"/>
+      <dynamics damping="5.0" friction="0.1"/>  <!-- Tune for natural movement -->
+    </joint>
 
-#### Launching Gazebo with ROS 2
+    <gazebo reference="thigh">
+      <self_collide>false</self_collide>
+      <kinematic>false</kinematic>
+      <gravity>true</gravity>
+      <mu1>0.9</mu1>  <!-- High friction for feet -->
+      <mu2>0.9</mu2>
+      <fdir1>1 0 0</fdir1>  <!-- Direction of friction -->
+      <max_vel>0.04</max_vel>
+      <min_depth>0.001</min_depth>
+    </gazebo>
+    ```
 
-Integration with ROS 2 allows for real-time control and monitoring of simulated robots:
+    ### Day 10: Simulation Validation and Testing
 
-```python
-from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution
-from launch_ros.actions import Node
-from launch_ros.substitutions import FindPackageShare
+    #### Validating Simulation Accuracy
 
-def generate_launch_description():
-    # Launch Gazebo
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('gazebo_ros'),
-                'launch',
-                'gazebo.launch.py'
-            ])
-        ]),
-        launch_arguments={
-            'world': PathJoinSubstitution([
-                FindPackageShare('my_robot_gazebo'),
-                'worlds',
-                'my_world.sdf'
-            ])
-        }.items()
-    )
+    Key metrics for simulation validation:
 
-    return LaunchDescription([
-        gazebo
-    ])
-```
+    - **Kinematic accuracy**: Joint positions match expected values
+    - **Dynamic behavior**: Movement patterns similar to real robot
+    - **Sensor data**: Matches real-world sensor characteristics
+    - **Timing**: Simulation time matches real-time when possible
 
-### Day 30: Testing and Validation
+    #### Sim-to-Real Transfer Considerations
 
-#### Simulation Testing Procedures
+    Minimize the sim-to-real gap:
 
-1. **Environment Validation**: Verify world physics and lighting
-2. **Robot Behavior**: Test joint movements and sensor outputs
-3. **ROS 2 Communication**: Confirm topic publishing/subscribing
-4. **Performance Testing**: Monitor simulation stability and frame rate
+    - **Model accuracy**: Detailed URDF with correct masses/inertias
+    - **Sensor noise**: Include realistic noise models
+    - **Actuator dynamics**: Model motor delays and limitations
+    - **Environmental factors**: Include friction, air resistance
+    - **Calibration**: Align simulation parameters with real robot
 
-## Week 7: Physics Simulation and Sensor Integration
+    ## Hands-On Projects
 
-### Day 31: Advanced Physics Simulation
+    ### Week 6 Project: Basic Simulation Environment
 
-#### Physics Engine Configuration
+    1. Install and configure Gazebo with ROS 2 integration
+    2. Create a simple world with ground plane and lighting
+    3. Import a basic robot model (e.g., differential drive)
+    4. Test basic movement and sensor readings
+    5. Set up a launch file for your simulation environment
 
-Gazebo supports multiple physics engines with different characteristics:
+    ### Week 7 Project: Advanced Humanoid Simulation
 
-**ODE (Open Dynamics Engine):**
-- Default physics engine for Gazebo
-- Good balance of speed and accuracy
-- Well-suited for most humanoid robotics applications
+    1. Create a humanoid robot model with appropriate URDF
+    2. Add realistic sensors (camera, IMU, LIDAR)
+    3. Design a human-scale environment
+    4. Implement walking or basic movement patterns
+    5. Validate sensor data accuracy and physics behavior
 
-**Physics Configuration Parameters:**
-```xml
-<physics name="humanoid_physics" type="ode">
-  <max_step_size>0.0005</max_step_size>
-  <real_time_update_rate>2000.0</real_time_update_rate>
-  <ode>
-    <solver>
-      <type>quick</type>
-      <iters>50</iters>
-      <sor>1.0</sor>
-    </solver>
-    <constraints>
-      <cfm>1e-5</cfm>
-      <erp>0.1</erp>
-    </constraints>
-  </ode>
-</physics>
-```
+    ## Assessment
 
-#### Collision Detection and Response
+    ### Week 6 Assessment
+    - **Quiz**: Gazebo architecture and core concepts
+    - **Lab Exercise**: Create and run a basic simulation environment
+    - **Configuration Challenge**: Set up robot model in Gazebo with ROS 2
 
-For humanoid robots, accurate collision detection is crucial for stable walking and interaction:
+    ### Week 7 Assessment
+    - **Implementation**: Build advanced humanoid robot simulation
+    - **Validation Exercise**: Compare simulation vs. real-world behavior
+    - **Troubleshooting**: Diagnose and fix simulation problems
 
-```xml
-<link name="foot_link">
-  <collision name="collision">
-    <geometry>
-      <box size="0.15 0.08 0.02"/>
-    </geometry>
-  </collision>
-  <surface>
-    <contact>
-      <ode>
-        <soft_erp>0.1</soft_erp>    <!-- Error reduction for contacts -->
-        <soft_cfm>0.001</soft_cfm>  <!-- Constraint force mixing -->
-        <kp>1e+6</kp>              <!-- Contact stiffness -->
-        <kd>100</kd>               <!-- Contact damping -->
-      </ode>
-    </contact>
-    <friction>
-      <ode>
-        <mu>0.8</mu>   <!-- High friction for stable walking -->
-        <mu2>0.8</mu2>
-      </ode>
-    </friction>
-  </surface>
-</link>
-```
+    ## Resources
 
-### Day 32: Sensor Simulation
+    ### Required Reading
+    - "Gazebo Tutorial Series" - OSRF Documentation
+    - "Simulation-Based Robot Programming" - Best practices guide
+    - URDF/Gazebo Integration Guide
 
-#### Camera Sensors
+    ### Recommended Tools
+    - Gazebo Garden or Fortress
+    - RViz2 for visualization
+    - rqt for debugging
+    - Mesh tools for 3D models
 
-Camera sensors simulate RGB, depth, and stereo cameras:
+    ### Sample Models
+    - Tutorials world models
+    - PR2 robot simulation
+    - TurtleBot3 simulation examples
 
-```xml
-<gazebo reference="camera_link">
-  <sensor name="camera" type="camera">
-    <update_rate>30.0</update_rate>
-    <camera name="head">
-      <horizontal_fov>1.089</horizontal_fov>  <!-- 62.4 degrees -->
-      <image>
-        <width>640</width>
-        <height>480</height>
-        <format>R8G8B8</format>
-      </image>
-      <clip>
-        <near>0.1</near>
-        <far>10.0</far>
-      </clip>
-      <noise>
-        <type>gaussian</type>
-        <mean>0.0</mean>
-        <stddev>0.007</stddev>
-      </noise>
-    </camera>
-    <always_on>true</always_on>
-    <visualize>true</visualize>
-  </sensor>
-</gazebo>
-```
+    ## Next Steps
 
-#### LiDAR Sensors
+    After completing Weeks 6-7, you'll have mastered Gazebo simulation and be able to create realistic digital twins for your robots. You'll be prepared to move on to Module 3: The AI-Robot Brain (NVIDIA Isaac™) in Weeks 8-10, where you'll learn to integrate AI capabilities with your simulated robots.
+  </div>
+  <div className="urdu">
+    # ہفتہ 6-7: Gazebo کے ساتھ روبوٹ سیمولیشن
 
-LiDAR sensors provide 2D or 3D distance measurements:
+    ## جائزہ
 
-```xml
-<gazebo reference="laser_link">
-  <sensor name="laser" type="ray">
-    <update_rate>10</update_rate>
-    <ray>
-      <scan>
-        <horizontal>
-          <samples>720</samples>
-          <resolution>1</resolution>
-          <min_angle>-1.570796</min_angle>  <!-- -90 degrees -->
-          <max_angle>1.570796</max_angle>    <!-- 90 degrees -->
-        </horizontal>
-      </scan>
-      <range>
-        <min>0.10</min>
-        <max>30.0</max>
-        <resolution>0.01</resolution>
-      </range>
-    </ray>
-    <always_on>true</always_on>
-    <visualize>true</visualize>
-  </sensor>
-</gazebo>
-```
+    Physical AI اور ہیومنائیڈ روبوٹکس کورس کے ہفتہ 6-7 میں خوش آمدید! ان ہفتوں کے دوران، آپ روبوٹکس کے لیے ایک سیمولیشن ماحول کے طور پر Gazebo کی طاقت کو دریافت کریں گے۔ Gazebo طبعی روبوٹس کے لیے ڈیجیٹل جڑواں (digital twin) کے طور پر کام کرتا ہے، جو آپ کو حقیقی ہارڈویئر پر تعینات کرنے سے پہلے اپنے الگورتھم کو محفوظ، قابل کنٹرول اور قابل تکرار ماحول میں ٹیسٹ اور تصدیق کرنے کی اجازت دیتا ہے۔
 
-### Day 33: IMU and Force/Torque Sensors
+    ## سیکھنے کے مقاصد
 
-#### IMU Sensors
+    ہفتہ 6-7 کے اختتام تک، آپ اس قابل ہو جائیں گے:
 
-IMU sensors provide orientation, angular velocity, and linear acceleration data:
-
-```xml
-<gazebo reference="imu_link">
-  <sensor name="imu_sensor" type="imu">
-    <always_on>true</always_on>
-    <update_rate>100</update_rate>
-    <visualize>false</visualize>
-    <imu>
-      <angular_velocity>
-        <x>
-          <noise type="gaussian">
-            <mean>0.0</mean>
-            <stddev>0.0017</stddev>  <!-- ~0.1 deg/s (1-sigma) -->
-            <bias_mean>0.0004</bias_mean>
-            <bias_stddev>0.0000008</bias_stddev>
-          </noise>
-        </x>
-        <y>
-          <noise type="gaussian">
-            <mean>0.0</mean>
-            <stddev>0.0017</stddev>
-            <bias_mean>0.0004</bias_mean>
-            <bias_stddev>0.0000008</bias_stddev>
-          </noise>
-        </y>
-        <z>
-          <noise type="gaussian">
-            <mean>0.0</mean>
-            <stddev>0.0017</stddev>
-            <bias_mean>0.0004</bias_mean>
-            <bias_stddev>0.0000008</bias_stddev>
-          </noise>
-        </z>
-      </angular_velocity>
-      <linear_acceleration>
-        <x>
-          <noise type="gaussian">
-            <mean>0.0</mean>
-            <stddev>0.017</stddev>  <!-- 1-sigma: 0.017 m/s^2 -->
-            <bias_mean>0.0</bias_mean>
-            <bias_stddev>0.0017</bias_stddev>
-          </noise>
-        </x>
-        <y>
-          <noise type="gaussian">
-            <mean>0.0</mean>
-            <stddev>0.017</stddev>
-            <bias_mean>0.0</bias_mean>
-            <bias_stddev>0.0017</bias_stddev>
-          </noise>
-        </y>
-        <z>
-          <noise type="gaussian">
-            <mean>0.0</mean>
-            <stddev>0.017</stddev>
-            <bias_mean>0.0</bias_mean>
-            <bias_stddev>0.0017</bias_stddev>
-          </noise>
-        </z>
-      </linear_acceleration>
-    </imu>
-  </sensor>
-</gazebo>
-```
-
-### Day 34: Physics Tuning for Humanoid Robots
-
-#### Balance and Stability Considerations
-
-Humanoid robots require special physics tuning for stable simulation:
-
-```xml
-<physics name="humanoid_physics" type="ode">
-  <max_step_size>0.0005</max_step_size>
-  <real_time_update_rate>2000.0</real_time_update_rate>
-  <ode>
-    <solver>
-      <type>quick</type>
-      <iters>100</iters>  <!-- More iterations for stability -->
-      <sor>1.0</sor>
-    </solver>
-    <constraints>
-      <cfm>1e-6</cfm>    <!-- Constraint Force Mixing -->
-      <erp>0.1</erp>     <!-- Error Reduction Parameter -->
-    </constraints>
-  </ode>
-</physics>
-```
-
-### Day 35: Integration Testing
-
-#### Testing Simulation Components
-
-1. **Physics Validation**: Test gravity, collisions, and joint constraints
-2. **Sensor Validation**: Verify sensor data accuracy and noise models
-3. **ROS 2 Integration**: Confirm all topics publish/subscriber correctly
-4. **Performance Testing**: Monitor frame rate and computational load
-
-## Hands-On Activities
-
-### Week 6 Activities
-
-1. **Gazebo Installation and Basic Setup**
-   - Install Gazebo Garden and ROS 2 integration packages
-   - Launch basic simulation with default robot
-   - Explore Gazebo interface and controls
-
-2. **World Creation Exercise**
-   - Create a custom world file with obstacles
-   - Add lighting and environmental features
-   - Test world loading and physics behavior
-
-3. **Robot Model Integration**
-   - Create or import a simple robot model
-   - Add Gazebo plugins for ROS 2 control
-   - Test basic movement in simulation
-
-### Week 7 Activities
-
-1. **Physics Tuning Exercise**
-   - Adjust physics parameters for different robot types
-   - Test stability with various configurations
-   - Document optimal settings for humanoid robots
-
-2. **Sensor Simulation Implementation**
-   - Add multiple sensor types to robot model
-   - Verify sensor data in ROS 2 topics
-   - Test sensor integration with perception nodes
-
-3. **Simulation Validation**
-   - Run comprehensive tests on simulation environment
-   - Validate sensor accuracy against real-world data
-   - Document any discrepancies or issues
-
-## Assessment
-
-### Week 6 Assessment
-- **Lab Exercise**: Create and test a custom Gazebo world
-- **Quiz**: Gazebo architecture and core concepts
-- **Project**: Integrate a simple robot model with ROS 2
-
-### Week 7 Assessment
-- **Simulation Project**: Implement complete sensor suite for robot
-- **Performance Test**: Validate physics simulation stability
-- **Integration Challenge**: Connect simulation to perception system
-
-## Resources
-
-### Required Reading
-- Gazebo Simulation Documentation
-- ROS 2 with Gazebo Integration Guide
-- Physics Simulation Best Practices
-
-### Tutorials
-- Gazebo Beginner Tutorials
-- Sensor Simulation in Gazebo
-- ROS 2 Control Integration
-
-### Tools
-- Gazebo Garden
-- RViz2 for visualization
-- rqt tools for monitoring
-- TMUX for process management
-
-## Next Steps
-
-After completing Weeks 6-7, students will have mastered Gazebo simulation and be ready to move on to Weeks 8-10: NVIDIA Isaac Platform, where they'll learn to develop AI-powered perception and manipulation systems using NVIDIA's advanced robotics platform.
+    1. Gazebo سیمولیشن کے فن تعمیر اور صلاحیتوں کو سمجھیں۔
+    2. Gazebo سیمولیشن کے لیے روبوٹ ماڈل بنائیں اور ترتیب دیں۔
+    3. کسٹم سیمولیشن ماحول ڈیزائن اور تعمیر کریں۔
+    4. حقیقت پسندانہ روبوٹ سیمولیشن کے لیے Gazebo کو ROS 2 کے ساتھ مربوط کریں۔
+    5. درست سیمولیشن کے لیے طبیعیات کی خصوصیات اور سینسر ماڈلز کو ترتیب دیں۔
+    6. کیمرے، LIDAR، اور IMUs سمیت سینسر سیمولیشن کو نافذ کریں۔
+    7. حقیقی دنیا میں تعیناتی سے پہلے سیمولیشن میں روبوٹ کے رویوں کی تصدیق کریں۔
+  </div>
+</BilingualChapter>
