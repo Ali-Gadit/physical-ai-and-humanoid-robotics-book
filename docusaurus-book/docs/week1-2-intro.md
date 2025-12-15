@@ -4,320 +4,346 @@ title: "Weeks 1-2 - Introduction to Physical AI and Embodied Intelligence"
 sidebar_position: 1
 ---
 
-# Weeks 1-2: Introduction to Physical AI and Embodied Intelligence
+import BilingualChapter from '@site/src/components/BilingualChapter';
 
-## Overview
+<BilingualChapter>
+  <div className="english">
+    # Weeks 1-2: Introduction to Physical AI and Embodied Intelligence
 
-Welcome to the first two weeks of the Physical AI & Humanoid Robotics course! During these foundational weeks, you'll explore the fundamental concepts that distinguish Physical AI from traditional digital AI. You'll understand why the transition from digital brains to physical bodies represents the future of AI, and how embodied intelligence enables robots to function effectively in real-world environments.
+    ## Overview
 
-These weeks establish the philosophical and theoretical foundation for the entire course, introducing you to the core principles that will guide your development of humanoid robots capable of natural human interactions.
+    Welcome to the first two weeks of the Physical AI & Humanoid Robotics course! During these foundational weeks, you'll explore the fundamental concepts that distinguish Physical AI from traditional digital AI. You'll understand why the transition from digital brains to physical bodies represents the future of AI, and how embodied intelligence enables robots to function effectively in real-world environments.
 
-## Learning Objectives
+    These weeks establish the philosophical and theoretical foundation for the entire course, introducing you to the core principles that will guide your development of humanoid robots capable of natural human interactions.
 
-By the end of Weeks 1-2, you will be able to:
+    ## Learning Objectives
 
-1. Define Physical AI and explain how it differs from traditional AI
-2. Understand the concept of embodied intelligence and its importance
-3. Explain the transition from digital AI to robots that understand physical laws
-4. Describe the humanoid robotics landscape and its applications
-5. Identify various sensor systems used in physical AI (LIDAR, cameras, IMUs, force/torque sensors)
-6. Appreciate the significance of Physical AI in bridging the gap between digital and physical worlds
+    By the end of Weeks 1-2, you will be able to:
 
-## Week 1: Foundations of Physical AI
+    1. Define Physical AI and explain how it differs from traditional AI
+    2. Understand the concept of embodied intelligence and its importance
+    3. Explain the transition from digital AI to robots that understand physical laws
+    4. Describe the humanoid robotics landscape and its applications
+    5. Identify various sensor systems used in physical AI (LIDAR, cameras, IMUs, force/torque sensors)
+    6. Appreciate the significance of Physical AI in bridging the gap between digital and physical worlds
 
-### Day 1: Introduction to Physical AI
+    ## Week 1: Foundations of Physical AI
 
-#### What is Physical AI?
+    ### Day 1: Introduction to Physical AI
 
-Physical AI represents a fundamental shift from traditional artificial intelligence systems that operate purely in digital spaces to AI systems that function in the physical world and comprehend physical laws. Unlike conventional AI models confined to digital environments, Physical AI systems must interact with and understand the real world through sensors, actuators, and embodied agents like robots.
+    #### What is Physical AI?
 
-**Key Characteristics:**
-- **Physical Interaction**: Direct engagement with the real world
-- **Environmental Understanding**: Comprehension of physical laws (gravity, friction, collision)
-- **Sensor Integration**: Processing of multi-modal sensory data
-- **Embodied Cognition**: Intelligence emerging from body-environment interaction
-- **Real-time Response**: Immediate reaction to physical stimuli
+    Physical AI represents a fundamental shift from traditional artificial intelligence systems that operate purely in digital spaces to AI systems that function in the physical world and comprehend physical laws. Unlike conventional AI models confined to digital environments, Physical AI systems must interact with and understand the real world through sensors, actuators, and embodied agents like robots.
 
-#### The Digital vs. Physical AI Divide
+    **Key Characteristics:**
+    - **Physical Interaction**: Direct engagement with the real world
+    - **Environmental Understanding**: Comprehension of physical laws (gravity, friction, collision)
+    - **Sensor Integration**: Processing of multi-modal sensory data
+    - **Embodied Cognition**: Intelligence emerging from body-environment interaction
+    - **Real-time Response**: Immediate reaction to physical stimuli
 
-Traditional AI systems operate in controlled digital environments where:
-- Rules are well-defined and predictable
-- Information is perfect and complete
-- Time is abstract and unlimited
-- Physical constraints don't apply
+    #### The Digital vs. Physical AI Divide
 
-Physical AI systems must navigate:
-- Imperfect, noisy sensor data
-- Real-time constraints and deadlines
-- Unpredictable environments and obstacles
-- Physical laws and material properties
+    Traditional AI systems operate in controlled digital environments where:
+    - Rules are well-defined and predictable
+    - Information is perfect and complete
+    - Time is abstract and unlimited
+    - Physical constraints don't apply
 
-### Day 2: Embodied Intelligence
+    Physical AI systems must navigate:
+    - Imperfect, noisy sensor data
+    - Real-time constraints and deadlines
+    - Unpredictable environments and obstacles
+    - Physical laws and material properties
 
-#### Understanding Embodied Intelligence
+    ### Day 2: Embodied Intelligence
 
-Embodied intelligence is the theory that intelligence emerges from the interaction between an agent and its environment. This concept suggests that the body plays an integral role in shaping how an agent thinks and perceives, meaning that the physical form and capabilities of an agent directly influence its cognitive processes.
+    #### Understanding Embodied Intelligence
 
-**Principles of Embodied Intelligence:**
-1. **Embodiment**: The physical form influences cognitive processes
-2. **Emergence**: Complex behaviors arise from simple body-environment interactions
-3. **Situatedness**: Intelligence is context-dependent and environmentally situated
-4. **Distributed Cognition**: Cognitive processes extend beyond the brain to include the body and environment
+    Embodied intelligence is the theory that intelligence emerges from the interaction between an agent and its environment. This concept suggests that the body plays an integral role in shaping how an agent thinks and perceives, meaning that the physical form and capabilities of an agent directly influence its cognitive processes.
 
-#### Why Embodied Intelligence Matters
+    **Principles of Embodied Intelligence:**
+    1. **Embodiment**: The physical form influences cognitive processes
+    2. **Emergence**: Complex behaviors arise from simple body-environment interactions
+    3. **Situatedness**: Intelligence is context-dependent and environmentally situated
+    4. **Distributed Cognition**: Cognitive processes extend beyond the brain to include the body and environment
 
-Humanoid robots are poised to excel in our human-centered world because they share our physical form and can be trained with abundant data from interacting in human environments. This represents a significant transition from AI models confined to digital environments to embodied intelligence that operates in physical space.
+    #### Why Embodied Intelligence Matters
 
-### Day 3: The Transition from Digital to Physical AI
+    Humanoid robots are poised to excel in our human-centered world because they share our physical form and can be trained with abundant data from interacting in human environments. This represents a significant transition from AI models confined to digital environments to embodied intelligence that operates in physical space.
 
-#### From Digital Brains to Physical Bodies
+    ### Day 3: The Transition from Digital to Physical AI
 
-The future of AI extends beyond digital spaces into the physical world. This capstone quarter introduces Physical AI—AI systems that function in reality and comprehend physical laws. Students learn to design, simulate, and deploy humanoid robots capable of natural human interactions using ROS 2, Gazebo, and NVIDIA Isaac.
+    #### From Digital Brains to Physical Bodies
 
-**Challenges in the Transition:**
-- **Sensing**: Converting physical phenomena to digital information
-- **Actuation**: Converting digital commands to physical actions
-- **Real-time Processing**: Meeting strict timing constraints
-- **Safety**: Ensuring safe interaction with humans and environment
-- **Uncertainty**: Managing imperfect and incomplete information
+    The future of AI extends beyond digital spaces into the physical world. This capstone quarter introduces Physical AI—AI systems that function in reality and comprehend physical laws. Students learn to design, simulate, and deploy humanoid robots capable of natural human interactions using ROS 2, Gazebo, and NVIDIA Isaac.
 
-#### Real-world Applications
+    **Challenges in the Transition:**
+    - **Sensing**: Converting physical phenomena to digital information
+    - **Actuation**: Converting digital commands to physical actions
+    - **Real-time Processing**: Meeting strict timing constraints
+    - **Safety**: Ensuring safe interaction with humans and environment
+    - **Uncertainty**: Managing imperfect and incomplete information
 
-Physical AI applications include:
-- **Healthcare**: Assisting elderly and disabled individuals
-- **Manufacturing**: Collaborative robots working alongside humans
-- **Service Industry**: Customer service and hospitality robots
-- **Exploration**: Robots for hazardous environments (space, deep sea, disaster zones)
-- **Education**: Interactive learning companions
+    #### Real-world Applications
 
-### Day 4: Humanoid Robotics Landscape
+    Physical AI applications include:
+    - **Healthcare**: Assisting elderly and disabled individuals
+    - **Manufacturing**: Collaborative robots working alongside humans
+    - **Service Industry**: Customer service and hospitality robots
+    - **Exploration**: Robots for hazardous environments (space, deep sea, disaster zones)
+    - **Education**: Interactive learning companions
 
-#### The Rise of Humanoid Robots
+    ### Day 4: Humanoid Robotics Landscape
 
-Humanoid robots represent a significant advancement in robotics because they share human physical characteristics, enabling:
-- **Natural Interaction**: Intuitive communication with humans
-- **Environment Compatibility**: Ability to use human-designed spaces and tools
-- **Social Acceptance**: More relatable and less intimidating than industrial robots
+    #### The Rise of Humanoid Robots
 
-#### Current State of Humanoid Robotics
+    Humanoid robots represent a significant advancement in robotics because they share human physical characteristics, enabling:
+    - **Natural Interaction**: Intuitive communication with humans
+    - **Environment Compatibility**: Ability to use human-designed spaces and tools
+    - **Social Acceptance**: More relatable and less intimidating than industrial robots
 
-Major players in humanoid robotics:
-- **Honda**: ASIMO and newer models
-- **Boston Dynamics**: Atlas and Spot
-- **SoftBank Robotics**: Pepper and NAO
-- **Toyota**: HSR (Human Support Robot)
-- **Tesla**: Optimus (formerly Tesla Bot)
+    #### Current State of Humanoid Robotics
 
-#### Applications and Markets
+    Major players in humanoid robotics:
+    - **Honda**: ASIMO and newer models
+    - **Boston Dynamics**: Atlas and Spot
+    - **SoftBank Robotics**: Pepper and NAO
+    - **Toyota**: HSR (Human Support Robot)
+    - **Tesla**: Optimus (formerly Tesla Bot)
 
-Humanoid robots are being deployed in:
-- **Healthcare**: Patient assistance and therapy
-- **Customer Service**: Reception and guidance
-- **Education**: Teaching aids and research platforms
-- **Research**: Human-robot interaction studies
-- **Entertainment**: Theme parks and exhibitions
+    #### Applications and Markets
 
-### Day 5: Course Overview and Setup
+    Humanoid robots are being deployed in:
+    - **Healthcare**: Patient assistance and therapy
+    - **Customer Service**: Reception and guidance
+    - **Education**: Teaching aids and research platforms
+    - **Research**: Human-robot interaction studies
+    - **Entertainment**: Theme parks and exhibitions
 
-#### Physical AI & Humanoid Robotics Course Structure
+    ### Day 5: Course Overview and Setup
 
-This course is structured around four core modules:
-1. **Module 1**: The Robotic Nervous System (ROS 2)
-2. **Module 2**: The Digital Twin (Gazebo & Unity)
-3. **Module 3**: The AI-Robot Brain (NVIDIA Isaac™)
-4. **Module 4**: Vision-Language-Action (VLA)
+    #### Physical AI & Humanoid Robotics Course Structure
 
-#### Week 1 Assignments
-- Read foundational papers on Physical AI and embodied intelligence
-- Set up development environment with ROS 2, Gazebo, and Isaac Sim
-- Complete basic ROS 2 tutorials
-- Install required hardware drivers and libraries
+    This course is structured around four core modules:
+    1. **Module 1**: The Robotic Nervous System (ROS 2)
+    2. **Module 2**: The Digital Twin (Gazebo & Unity)
+    3. **Module 3**: The AI-Robot Brain (NVIDIA Isaac™)
+    4. **Module 4**: Vision-Language-Action (VLA)
 
-## Week 2: Sensor Systems and Physical Laws
+    #### Week 1 Assignments
+    - Read foundational papers on Physical AI and embodied intelligence
+    - Set up development environment with ROS 2, Gazebo, and Isaac Sim
+    - Complete basic ROS 2 tutorials
+    - Install required hardware drivers and libraries
 
-### Day 6: Sensor Systems Overview
+    ## Week 2: Sensor Systems and Physical Laws
 
-#### Types of Sensors in Physical AI
+    ### Day 6: Sensor Systems Overview
 
-Physical AI systems rely on various sensor systems to perceive their environment:
+    #### Types of Sensors in Physical AI
 
-1. **Vision Systems (Cameras)**
-   - RGB cameras for color information
-   - Depth cameras for 3D perception
-   - Stereo vision for depth estimation
-   - Thermal cameras for heat signatures
+    Physical AI systems rely on various sensor systems to perceive their environment:
 
-2. **Range Sensors (LIDAR)**
-   - 2D LIDAR for planar navigation
-   - 3D LIDAR for volumetric mapping
-   - Time-of-flight sensors
-   - Structured light sensors
+    1. **Vision Systems (Cameras)**
+       - RGB cameras for color information
+       - Depth cameras for 3D perception
+       - Stereo vision for depth estimation
+       - Thermal cameras for heat signatures
 
-3. **Inertial Sensors (IMUs)**
-   - Accelerometers for linear acceleration
-   - Gyroscopes for angular velocity
-   - Magnetometers for magnetic field
-   - Orientation estimation
+    2. **Range Sensors (LIDAR)**
+       - 2D LIDAR for planar navigation
+       - 3D LIDAR for volumetric mapping
+       - Time-of-flight sensors
+       - Structured light sensors
 
-4. **Force/Torque Sensors**
-   - Joint torque sensors
-   - Fingertip tactile sensors
-   - Wrench sensors for force measurement
-   - Balance and manipulation feedback
+    3. **Inertial Sensors (IMUs)**
+       - Accelerometers for linear acceleration
+       - Gyroscopes for angular velocity
+       - Magnetometers for magnetic field
+       - Orientation estimation
 
-#### Sensor Integration Challenges
+    4. **Force/Torque Sensors**
+       - Joint torque sensors
+       - Fingertip tactile sensors
+       - Wrench sensors for force measurement
+       - Balance and manipulation feedback
 
-- **Data Fusion**: Combining information from multiple sensors
-- **Calibration**: Ensuring sensor accuracy and alignment
-- **Synchronization**: Coordinating data from different sensors
-- **Noise Filtering**: Managing sensor noise and uncertainty
-- **Real-time Processing**: Meeting timing constraints
+    #### Sensor Integration Challenges
 
-### Day 7: LIDAR and Range Sensing
+    - **Data Fusion**: Combining information from multiple sensors
+    - **Calibration**: Ensuring sensor accuracy and alignment
+    - **Synchronization**: Coordinating data from different sensors
+    - **Noise Filtering**: Managing sensor noise and uncertainty
+    - **Real-time Processing**: Meeting timing constraints
 
-#### Understanding LIDAR Technology
+    ### Day 7: LIDAR and Range Sensing
 
-LIDAR (Light Detection and Ranging) uses pulsed laser light to measure distances to objects. The system calculates the time it takes for reflected light to return to the receiver to measure distances.
+    #### Understanding LIDAR Technology
 
-**LIDAR Advantages:**
-- High precision distance measurements
-- Works in various lighting conditions
-- Generates dense 3D point clouds
-- Reliable for navigation and mapping
+    LIDAR (Light Detection and Ranging) uses pulsed laser light to measure distances to objects. The system calculates the time it takes for reflected light to return to the receiver to measure distances.
 
-**LIDAR Limitations:**
-- Expensive compared to other sensors
-- Limited performance in adverse weather
-- Can be affected by transparent surfaces
-- Computational requirements for processing
+    **LIDAR Advantages:**
+    - High precision distance measurements
+    - Works in various lighting conditions
+    - Generates dense 3D point clouds
+    - Reliable for navigation and mapping
 
-#### LIDAR Applications in Physical AI
-- **Mapping**: Creating 3D maps of environments
-- **Localization**: Determining robot position in known maps
-- **Obstacle Detection**: Identifying and avoiding obstacles
-- **Navigation**: Path planning and route following
+    **LIDAR Limitations:**
+    - Expensive compared to other sensors
+    - Limited performance in adverse weather
+    - Can be affected by transparent surfaces
+    - Computational requirements for processing
 
-### Day 8: Camera Systems and Computer Vision
+    #### LIDAR Applications in Physical AI
+    - **Mapping**: Creating 3D maps of environments
+    - **Localization**: Determining robot position in known maps
+    - **Obstacle Detection**: Identifying and avoiding obstacles
+    - **Navigation**: Path planning and route following
 
-#### RGB-D Cameras
+    ### Day 8: Camera Systems and Computer Vision
 
-RGB-D cameras provide both color (RGB) and depth (D) information, enabling:
-- **3D Reconstruction**: Building 3D models of environments
-- **Object Recognition**: Identifying and categorizing objects
-- **Scene Understanding**: Comprehending spatial relationships
-- **Gesture Recognition**: Understanding human body language
+    #### RGB-D Cameras
 
-#### Computer Vision for Physical AI
+    RGB-D cameras provide both color (RGB) and depth (D) information, enabling:
+    - **3D Reconstruction**: Building 3D models of environments
+    - **Object Recognition**: Identifying and categorizing objects
+    - **Scene Understanding**: Comprehending spatial relationships
+    - **Gesture Recognition**: Understanding human body language
 
-Key computer vision techniques for Physical AI:
-- **Object Detection**: Locating and identifying objects
-- **Semantic Segmentation**: Pixel-level scene understanding
-- **Pose Estimation**: Determining object and human poses
-- **Visual SLAM**: Simultaneous localization and mapping
-
-### Day 9: IMU Sensors and Balance
+    #### Computer Vision for Physical AI
 
-#### Inertial Measurement Units (IMUs)
+    Key computer vision techniques for Physical AI:
+    - **Object Detection**: Locating and identifying objects
+    - **Semantic Segmentation**: Pixel-level scene understanding
+    - **Pose Estimation**: Determining object and human poses
+    - **Visual SLAM**: Simultaneous localization and mapping
+
+    ### Day 9: IMU Sensors and Balance
 
-IMUs combine accelerometers, gyroscopes, and magnetometers to provide:
-- **Orientation**: Robot attitude in 3D space
-- **Acceleration**: Linear and angular acceleration data
-- **Gravity Compensation**: Understanding gravitational forces
-- **Balance Control**: Maintaining stable posture
+    #### Inertial Measurement Units (IMUs)
 
-#### IMU Applications in Humanoid Robotics
-- **Balance Maintenance**: Keeping bipedal robots upright
-- **Motion Tracking**: Monitoring robot movement
-- **Fall Detection**: Identifying and responding to falls
-- **Gait Analysis**: Understanding walking patterns
+    IMUs combine accelerometers, gyroscopes, and magnetometers to provide:
+    - **Orientation**: Robot attitude in 3D space
+    - **Acceleration**: Linear and angular acceleration data
+    - **Gravity Compensation**: Understanding gravitational forces
+    - **Balance Control**: Maintaining stable posture
 
-### Day 10: Force/Torque Sensing and Manipulation
+    #### IMU Applications in Humanoid Robotics
+    - **Balance Maintenance**: Keeping bipedal robots upright
+    - **Motion Tracking**: Monitoring robot movement
+    - **Fall Detection**: Identifying and responding to falls
+    - **Gait Analysis**: Understanding walking patterns
 
-#### Force/Torque Sensors
+    ### Day 10: Force/Torque Sensing and Manipulation
 
-Force/torque sensors measure the forces and moments applied to robot joints and end-effectors, enabling:
-- **Grasp Control**: Managing grip strength for objects
-- **Contact Detection**: Identifying when robot touches objects
-- **Assembly Tasks**: Precise force control for manufacturing
-- **Human-Robot Interaction**: Safe physical contact
+    #### Force/Torque Sensors
 
-#### Manipulation Challenges
+    Force/torque sensors measure the forces and moments applied to robot joints and end-effectors, enabling:
+    - **Grasp Control**: Managing grip strength for objects
+    - **Contact Detection**: Identifying when robot touches objects
+    - **Assembly Tasks**: Precise force control for manufacturing
+    - **Human-Robot Interaction**: Safe physical contact
 
-Humanoid robots face unique manipulation challenges:
-- **Dexterity**: Achieving human-like hand manipulation
-- **Force Control**: Managing contact forces safely
-- **Object Properties**: Understanding object weight and fragility
-- **Workspace Planning**: Coordinating multi-joint movements
+    #### Manipulation Challenges
 
-## Hands-On Activities
+    Humanoid robots face unique manipulation challenges:
+    - **Dexterity**: Achieving human-like hand manipulation
+    - **Force Control**: Managing contact forces safely
+    - **Object Properties**: Understanding object weight and fragility
+    - **Workspace Planning**: Coordinating multi-joint movements
 
-### Week 1 Activities
+    ## Hands-On Activities
 
-1. **Physical AI Exploration**
-   - Research current Physical AI applications
-   - Compare digital vs. physical AI capabilities
-   - Document findings in a report
+    ### Week 1 Activities
 
-2. **Development Environment Setup**
-   - Install ROS 2 Humble Hawksbill
-   - Set up Gazebo simulation environment
-   - Verify basic ROS 2 functionality
+    1. **Physical AI Exploration**
+       - Research current Physical AI applications
+       - Compare digital vs. physical AI capabilities
+       - Document findings in a report
 
-3. **Embodied Intelligence Study**
-   - Analyze how physical form influences cognition
-   - Compare different robot morphologies
-   - Discuss implications for humanoid design
+    2. **Development Environment Setup**
+       - Install ROS 2 Humble Hawksbill
+       - Set up Gazebo simulation environment
+       - Verify basic ROS 2 functionality
 
-### Week 2 Activities
+    3. **Embodied Intelligence Study**
+       - Analyze how physical form influences cognition
+       - Compare different robot morphologies
+       - Discuss implications for humanoid design
 
-1. **Sensor Characterization**
-   - Test different sensor types with provided hardware
-   - Analyze sensor data quality and limitations
-   - Document sensor specifications and capabilities
+    ### Week 2 Activities
 
-2. **LIDAR Data Processing**
-   - Process LIDAR point cloud data
-   - Create simple obstacle detection algorithms
-   - Visualize LIDAR data in ROS 2
+    1. **Sensor Characterization**
+       - Test different sensor types with provided hardware
+       - Analyze sensor data quality and limitations
+       - Document sensor specifications and capabilities
 
-3. **Camera Calibration**
-   - Calibrate RGB-D camera intrinsics
-   - Test depth accuracy
-   - Process camera data for object detection
+    2. **LIDAR Data Processing**
+       - Process LIDAR point cloud data
+       - Create simple obstacle detection algorithms
+       - Visualize LIDAR data in ROS 2
 
-## Assessment
+    3. **Camera Calibration**
+       - Calibrate RGB-D camera intrinsics
+       - Test depth accuracy
+       - Process camera data for object detection
 
-### Week 1 Assessment
-- **Quiz**: Physical AI concepts and embodied intelligence
-- **Lab Report**: Development environment setup and verification
-- **Discussion**: Compare digital vs. physical AI approaches
+    ## Assessment
 
-### Week 2 Assessment
-- **Practical**: Sensor data processing and analysis
-- **Report**: Sensor characterization and limitations
-- **Presentation**: Sensor fusion approaches for Physical AI
+    ### Week 1 Assessment
+    - **Quiz**: Physical AI concepts and embodied intelligence
+    - **Lab Report**: Development environment setup and verification
+    - **Discussion**: Compare digital vs. physical AI approaches
 
-## Resources
+    ### Week 2 Assessment
+    - **Practical**: Sensor data processing and analysis
+    - **Report**: Sensor characterization and limitations
+    - **Presentation**: Sensor fusion approaches for Physical AI
 
-### Required Reading
-- Pfeifer, R. & Bongard, J. "How the Body Shapes the Way We Think"
-- Brooks, R.A. "Intelligence without Representation"
-- Metta, G. et al. "The iCub humanoid robot: an open-systems platform for research in embodied intelligence"
+    ## Resources
 
-### Recommended Videos
-- "What is Physical AI?" - Stanford AI Lab
-- "Embodied Cognition" - MIT CSAIL
-- "Humanoid Robotics Overview" - IEEE Robotics
+    ### Required Reading
+    - Pfeifer, R. & Bongard, J. "How the Body Shapes the Way We Think"
+    - Brooks, R.A. "Intelligence without Representation"
+    - Metta, G. et al. "The iCub humanoid robot: an open-systems platform for research in embodied intelligence"
 
-### Software Tools
-- ROS 2 Humble Hawksbill
-- Gazebo Garden
-- NVIDIA Isaac Sim
-- OpenCV for computer vision
-- PCL for point cloud processing
+    ### Recommended Videos
+    - "What is Physical AI?" - Stanford AI Lab
+    - "Embodied Cognition" - MIT CSAIL
+    - "Humanoid Robotics Overview" - IEEE Robotics
 
-## Next Steps
+    ### Software Tools
+    - ROS 2 Humble Hawksbill
+    - Gazebo Garden
+    - NVIDIA Isaac Sim
+    - OpenCV for computer vision
+    - PCL for point cloud processing
 
-After completing Weeks 1-2, you'll have a solid foundation in Physical AI concepts and embodied intelligence. You'll understand the fundamental differences between digital and physical AI, appreciate the importance of sensor systems, and be prepared to dive into Module 1: The Robotic Nervous System (ROS 2) in Weeks 3-5.
+    ## Next Steps
 
-The knowledge gained in these first two weeks will inform all subsequent modules, as you'll constantly consider how physical laws, embodiment, and real-world interaction shape the design and implementation of humanoid robot systems.
+    After completing Weeks 1-2, you'll have a solid foundation in Physical AI concepts and embodied intelligence. You'll understand the fundamental differences between digital and physical AI, appreciate the importance of sensor systems, and be prepared to dive into Module 1: The Robotic Nervous System (ROS 2) in Weeks 3-5.
+
+    The knowledge gained in these first two weeks will inform all subsequent modules, as you'll constantly consider how physical laws, embodiment, and real-world interaction shape the design and implementation of humanoid robot systems.
+  </div>
+  <div className="urdu">
+    # ہفتہ 1-2: Physical AI کا تعارف اور مجسم ذہانت
+
+    ## جائزہ
+
+    Physical AI اور ہیومنائیڈ روبوٹکس کورس کے پہلے دو ہفتوں میں خوش آمدید! ان بنیادی ہفتوں کے دوران، آپ ان بنیادی تصورات کو دریافت کریں گے جو روایتی ڈیجیٹل AI سے Physical AI کو ممتاز کرتے ہیں۔ آپ سمجھیں گے کہ ڈیجیٹل دماغوں سے جسمانی جسموں میں منتقلی AI کے مستقبل کی نمائندگی کیوں کرتی ہے، اور کس طرح مجسم ذہانت روبوٹ کو حقیقی دنیا کے ماحول میں مؤثر طریقے سے کام کرنے کے قابل بناتی ہے۔
+
+    یہ ہفتے پورے کورس کے لیے فلسفیانہ اور نظریاتی بنیاد قائم کرتے ہیں، جو آپ کو ان بنیادی اصولوں سے متعارف کراتے ہیں جو قدرتی انسانی تعاملات کے قابل ہیومنائیڈ روبوٹس کی آپ کی ترقی کی رہنمائی کریں گے۔
+
+    ## سیکھنے کے مقاصد
+
+    ہفتہ 1-2 کے اختتام تک، آپ اس قابل ہو جائیں گے:
+
+    1. Physical AI کی تعریف کریں اور وضاحت کریں کہ یہ روایتی AI سے کس طرح مختلف ہے۔
+    2. مجسم ذہانت (embodied intelligence) کے تصور اور اس کی اہمیت کو سمجھیں۔
+    3. ڈیجیٹل AI سے ان روبوٹوں میں منتقلی کی وضاحت کریں جو جسمانی قوانین کو سمجھتے ہیں۔
+    4. ہیومنائیڈ روبوٹکس کے منظرنامے اور اس کی ایپلی کیشنز کو بیان کریں۔
+    5. Physical AI میں استعمال ہونے والے مختلف سینسر سسٹمز (LIDAR، کیمرے، IMUs، فورس/ٹارک سینسر) کی شناخت کریں۔
+    6. ڈیجیٹل اور فزیکل دنیاؤں کے درمیان فرق کو ختم کرنے میں Physical AI کی اہمیت کو سراہیں۔
+  </div>
+</BilingualChapter>
