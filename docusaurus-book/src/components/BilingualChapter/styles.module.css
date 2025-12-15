@@ -1,0 +1,56 @@
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: var(--ifm-global-radius);
+  background-color: transparent;
+  color: var(--ifm-color-primary);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-family: inherit;
+}
+
+.toggleButton:hover {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-color-white);
+  text-decoration: none;
+}
+
+.toggleButton:active {
+  transform: translateY(1px);
+}
+
+.urduContent {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Noto Nastaliq Urdu', 'Arial', sans-serif;
+  line-height: 1.8;
+  padding: 1rem 0;
+}
+
+.englishContent {
+  direction: ltr;
+  text-align: left;
+  padding: 1rem 0;
+}
+
+/* Ensure headings inside Urdu content are right-aligned */
+.urduContent h1,
+.urduContent h2,
+.urduContent h3,
+.urduContent h4,
+.urduContent h5,
+.urduContent h6 {
+  text-align: right;
+}
+
+/* Ensure lists inside Urdu content have right-aligned bullets */
+.urduContent ul,
+.urduContent ol {
+  padding-right: 2rem;
+  padding-left: 0;
+}

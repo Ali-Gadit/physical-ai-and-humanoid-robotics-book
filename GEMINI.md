@@ -210,4 +210,9 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
 
 ## Recent Changes
+- 006-bilingual-chapters: Added TypeScript 5.x (Docusaurus v3), React 18 + `better-auth` (client client), Docusaurus core
 - 005-user-onboarding-auth: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
+
+## Active Technologies
+- TypeScript 5.x (Docusaurus v3), React 18 + `better-auth` (client client), Docusaurus core (006-bilingual-chapters)
+- Browser `localStorage` for language preference (006-bilingual-chapters)
